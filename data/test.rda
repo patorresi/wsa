@@ -1,0 +1,9 @@
+ui_upload = sidebarLayout(
+  sidebarPanel(
+    fileInput("file", "data", buttonLabel = "Upload file")
+  ), # ending of sidebarPanel
+  mainPanel(
+    h3("TALIS 2024 - Within school sampling selection - Beta"),
+    tableOutput("preview1")
+  )
+) # ending of sidebarLayout
