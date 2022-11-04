@@ -1,3 +1,14 @@
+#' Server function
+#'
+#' This function allows you find a within school allocation.
+#' @param input set the default values.
+#' @keywords allocation
+#' @export
+#' @examples
+#' server()
+
+
+
 server = function(input,output,session){
   # Upload -------------------------------------
   data = reactive({
