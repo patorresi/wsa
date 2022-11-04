@@ -1,6 +1,7 @@
 
 
 # Uploading and parsing the file.
+library(shiny)
 
 ui_upload = sidebarLayout(
   sidebarPanel(
