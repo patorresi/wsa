@@ -1,30 +1,3 @@
-
-
-# Uploading and parsing the file.
-
-ui_upload = sidebarLayout(
-  sidebarPanel(
-    fileInput("file", "data", buttonLabel = "Upload file")
-  ), # ending of sidebarPanel
-  mainPanel(
-    h3("TALIS 2024 - Within school sampling selection - Beta"),
-    tableOutput("preview1")
-  )
-) # ending of sidebarLayout
-
-
-# Download the file.
-
-ui_download = fluidRow(
-  column(width = 12, downloadButton("download", class = "btn-block"))
-) # ending of fluidRow
-
-# assembled into a single fluidPage();
-
-ui = fluidPage(ui_upload,ui_download)
-
-# ----------------------------------------------
-
 server = function(input,output,session){
   # Upload -------------------------------------
   data = reactive({
