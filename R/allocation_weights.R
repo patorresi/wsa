@@ -173,9 +173,9 @@ text_end_i02 = '??? Leader Role: 1 = Leader of this ECEC setting
   ??? Year of Birth: YYYY;  9999 = Not specified
 ??? Gender: 1 = Female;  2 = Male; 3 = Non-binary/diverse;  9 = Refused'
 
-is02_file[8 + nrow(df_i1_filtered)+1,] = c("","","","","","",'<list_end>')
+is02_file[8 + nrow(df_a_filtered)+1,] = c("","","","","","",'<list_end>')
 # +2 the additional information
-is02_file[8 + nrow(df_i1_filtered)+2,] = c(text_end_i02,"","","","","","")
+is02_file[8 + nrow(df_a_filtered)+2,] = c(text_end_i02,"","","","","","")
 }else{
   df_a = x[samples[[1]],]
   isa_header = as.data.frame(matrix(rep("",63), nrow = 9, ncol = 7))
@@ -230,7 +230,7 @@ df_ib_file = rbind(isb_header,df_b_filtered)
 # ??? Year of Birth: YYYY;  9999 = Not specified
 # ??? Gender: 1 = Female;  2 = Male; 3 = Non-binary/diverse;  9 = Refused'
 
-df_ib_file[8 + nrow(df_i2_filtered)+1,] = c("","","","","","",'<list_end>')
+df_ib_file[8 + nrow(df_b_filtered)+1,] = c("","","","","","",'<list_end>')
 # +2 the additional information
 # df_ib_file[8 + nrow(df_i2_filtered)+2,] = c(text_end_i02,"","","","","","")
 }else{
