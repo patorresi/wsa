@@ -217,7 +217,7 @@ isb_header[9,] = c('Teacher Name',
 # Add the filtered teachers
 # First, we need to create a empty row with the hide column
 df_b$Exemption = ""
-df_b_filtered = df_i2[,c(1,2,3,13,4,5,11)]
+df_b_filtered = df_b[,c(1,2,3,13,4,5,11)]
 names(df_b_filtered) = names(isb_header)
 df_ib_file = rbind(isb_header,df_b_filtered)
 # add the ending rows
