@@ -249,7 +249,7 @@ if(length(v_i020) != 0){
 # and the remainning one will be deliver to the IEA.
 # After the draft is ready, now the ouput will be assemble. 
 
-df_iea = x[c(samples[[1]],samples[[2]])]
+df_iea = x
 df_iea[,1] = "ID"
 # create an empty matrix with 8 rows for each one of the things will add to the
 # listing form. 
