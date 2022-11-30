@@ -162,7 +162,7 @@ is02_header[8,] = c('Name',
 # reorganize the order of the columns.
 df_a_filtered = df_a[,c(1,2,3,9,10,4,5)]
 names(df_a_filtered) = names(is02_header)[1:7]
-is02_file = rbind(is02_header,df_i1_filtered)
+is02_file = rbind(is02_header,df_a_filtered)
 # add the ending rows
 # 8 rows with the header values + number of teacher/staff added to the file
 # +1 blank space with the end line string
@@ -235,13 +235,13 @@ df_ib_file[8 + nrow(df_i2_filtered)+1,] = c("","","","","","",'<list_end>')
 # df_ib_file[8 + nrow(df_i2_filtered)+2,] = c(text_end_i02,"","","","","","")
 }else{
   # ISCED 1
+  df_b = x[samples[[2]],]
+  isb_header = as.data.frame(matrix(rep("",63), nrow = 9, ncol = 7))
 }
 
 ################################################################################
 # Create output file for ISCED 1
 ################################################################################
-
-
 
 # iea file
 if(length(v_i020) != 0){
@@ -249,23 +249,23 @@ if(length(v_i020) != 0){
 # and the remainning one will be deliver to the IEA.
 # After the draft is ready, now the ouput will be assemble. 
 
-df_i2 = x
-df_i2[,1] = "ID"
+df_iea = x[c(samples[[1]],samples[[2]])]
+df_iea[,1] = "ID"
 # create an empty matrix with 8 rows for each one of the things will add to the
 # listing form. 
 # The listing form from ISCED 02 and ISCED 1&2 Have the same number of columns
 # but different number of rows (School coordinator require another row in the 
 # info section)
-i20_header = as.data.frame(matrix(rep("",56), nrow = 8, ncol = 7))
+iea_header = as.data.frame(matrix(rep("",56), nrow = 8, ncol = 7))
 # the second parte is related to the additional info in top of the listing form
 # ISCED 02 will not have the name of the school coordinator.
 # text_title_i02 = 'TALIS 2024 - Starting Strong Survey FT - [ISCED Level 02] Listing Form'
-text_title_i02 = 'TALIS 2024 - Starting Strong Survey FT - [ISCED Level 02] Listing Form'
-i20_header[1,1] =  text_title_i02
-i20_header[3:5,1] = c("Country/Region",'ECEC Setting Name','ECEC Setting ID')
-i20_header[3:5,3] = data_info[1:3,]
+text_title_iea = 'TALIS 2024 - Survey FT - Listing Form'
+iea_header[1,1] =  text_title_iea
+iea_header[3:5,1] = c("Country/Region",'ECEC Setting Name','ECEC Setting ID')
+iea_header[3:5,3] = y[1:3,]
 # columns names in the listing form.
-i20_header[8,] = c('Name',
+iea_header[8,] = c('Name',
                   'Sequence Number',
                   'Sequence Number',
                   'Leader Role',
@@ -273,9 +273,9 @@ i20_header[8,] = c('Name',
                   'Year of Birth',
                   'Gender')
 # Add the filtered teachers
-df_i2_filtered = df_i2[,c(1,2,3,9,10,4,5)]
-names(df_i2_filtered) = names(i20_header)[1:7]
-i20_iea_file = rbind(i20_header,df_i2_filtered)
+df_iea_filtered = df_iea[,c(1,2,3,9,10,4,5)]
+names(df_iea_filtered) = names(iea_header)[1:7]
+iea_file = rbind(iea_header,df_iea_filtered)
 # add the ending rows
 # 8 rows with the header values + number of teacher/staff added to the file
 # +1 blank space with the end line string
@@ -286,9 +286,9 @@ text_end_i02 = '??? Leader Role: 1 = Leader of this ECEC setting
   ??? Year of Birth: YYYY;  9999 = Not specified
 ??? Gender: 1 = Female;  2 = Male; 3 = Non-binary/diverse;  9 = Refused'
 
-i20_iea_file[8 + nrow(df_i2_filtered)+1,] = c("","","","","","",'<list_end>')
+iea_file[8 + nrow(df_iea_filtered)+1,] = c("","","","","","",'<list_end>')
 # +2 the additional information
-i20_iea_file[8 + nrow(df_i2_filtered)+2,] = c(text_end_i02,"","","","","","")
+iea_file[8 + nrow(df_iea_filtered)+2,] = c(text_end_i02,"","","","","","")
 }
 
 
