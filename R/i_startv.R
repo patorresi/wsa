@@ -1,3 +1,12 @@
+#' Starting values functions
+#'
+#' This function gathers the number of teachers that work in each ISCED level.
+#' @param df The data frame gathered will utilized the uploaded data frame.
+#' @keywords values
+#' @export
+#' @examples
+#' i_startv()
+
 i_startv = function(x){
   set_values = as.data.frame(apply(x[,c(6,7,8)],2,function(x){as.numeric(x)}))
   values = c(0)
