@@ -237,6 +237,7 @@ df_ib_file[8 + nrow(df_b_filtered)+1,] = c("","","","","","",'<list_end>')
   # ISCED 1
   df_b = x[samples[[2]],]
   isb_header = as.data.frame(matrix(rep("",63), nrow = 9, ncol = 7))
+  df_ib_file = df_b = x[samples[[2]],]
 }
 
 ################################################################################
@@ -298,6 +299,6 @@ iea_file[8 + nrow(df_iea_filtered)+2,] = c(text_end_i02,"","","","","","")
 # I02 = 0 else I1 = 0 else empty file.
 # I1 = 0 else I2 = 0 else empty file. 
 
-files = list(is02_file,i20_file,i20_iea_file)
+files = list(is02_file,df_ib_file,iea_file)
 
 }
