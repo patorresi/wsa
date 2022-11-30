@@ -161,7 +161,7 @@ is02_header[8,] = c('Name',
                   'Gender')
 # reorganize the order of the columns.
 df_a_filtered = df_a[,c(1,2,3,9,10,4,5)]
-names(df_i1_filtered) = names(is02_header)[1:7]
+names(df_a_filtered) = names(is02_header)[1:7]
 is02_file = rbind(is02_header,df_i1_filtered)
 # add the ending rows
 # 8 rows with the header values + number of teacher/staff added to the file
