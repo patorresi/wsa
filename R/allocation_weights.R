@@ -1,8 +1,8 @@
-#' Allocation weights function
+#' Allocation function
 #'
 #' This function retrieves the allocation and set the samples.
-#' @param x,y The data frame gathered will utilized the uploaded data frame.
-#' @keywords values
+#' @param x The data frame gathered will utilized the uploaded data frame.
+#' @keywords allocation
 #' @export
 #' @examples
 #' allocation_weights()
