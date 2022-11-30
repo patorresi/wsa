@@ -205,7 +205,7 @@ isb_header = as.data.frame(matrix(rep("",63), nrow = 9, ncol = 7))
 text_title_ib  = 'TALIS 2024 FT - [ISCED Level 1&2] Teacher Listing Form'
 isb_header[1,1] =  text_title_ib
 isb_header[3:6,1] = c("TALIS Country/Region",'School Name','School ID','School Coordinator')
-isb_header[3:6,3] = y
+isb_header[3:6,3] = y[1:4,]
 # columns names in the listing form.
 isb_header[9,] = c('Teacher Name',
                   'Sequence Number',
