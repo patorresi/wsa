@@ -7,6 +7,7 @@
 #' @examples
 #' allocation_weights()
 
+
 allocation_weights = function(x,y){
 {
   set.seed(1)
