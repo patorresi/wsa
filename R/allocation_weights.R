@@ -150,7 +150,7 @@ text_title_i02 = 'TALIS 2024 - Starting Strong Survey FT - [ISCED Level 02] List
 
 is02_header[1,1] =  text_title_i02
 is02_header[3:5,1] = c("Country/Region",'ECEC Setting Name','ECEC Setting ID')
-is02_header[3:5,3] = db_info[1:3,]
+is02_header[3:5,3] = data_info[1:3,]
 # columns names in the listing form.
 is02_header[8,] = c('Name',
                   'Sequence Number',
@@ -263,7 +263,7 @@ i20_header = as.data.frame(matrix(rep("",56), nrow = 8, ncol = 7))
 text_title_i02 = 'TALIS 2024 - Starting Strong Survey FT - [ISCED Level 02] Listing Form'
 i20_header[1,1] =  text_title_i02
 i20_header[3:5,1] = c("Country/Region",'ECEC Setting Name','ECEC Setting ID')
-i20_header[3:5,3] = db_info[1:3,]
+i20_header[3:5,3] = data_info[1:3,]
 # columns names in the listing form.
 i20_header[8,] = c('Name',
                   'Sequence Number',
