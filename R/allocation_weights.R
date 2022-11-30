@@ -108,7 +108,7 @@ i = ifelse(sum(c3) == 0,TRUE,FALSE)
 
 {
 # The seed was set based on the code of the school.
-set.seed(as.numeric(y[,3]))
+set.seed(as.numeric(y[3,]))
   sample1 = if(length(v_i002) == 0){
     sample(v_i010,p1,replace=FALSE)}else{
     sample(v_i002,p1,replace=FALSE)}
