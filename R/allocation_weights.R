@@ -1,3 +1,12 @@
+#' Allocation weights function
+#'
+#' This function retrieves the allocation and set the samples.
+#' @param x The data frame gathered will utilized the uploaded data frame.
+#' @keywords values
+#' @export
+#' @examples
+#' allocation_weights()
+
 allocation_weights = function(x,y){
 {
   set.seed(1)

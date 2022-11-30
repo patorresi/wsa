@@ -1,3 +1,13 @@
+#' Fill data frame function
+#'
+#' This function remove and replace external values with 0.
+#' @param df The data frame gathered will utilized the uploaded data frame.
+#' @keywords cleaning
+#' @export
+#' @examples
+#' fill_df()
+
+
 fill_df = function(x){
 # now I have only 0 values.
 clean_df = as.data.frame(apply(x,2,FUN=function(x){ifelse(is.na(x)==TRUE,0,x)}))

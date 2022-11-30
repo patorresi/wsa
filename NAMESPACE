@@ -2,5 +2,7 @@
 
 export(allocation_KP)
 export(cat_function)
+export(fill_df)
 export(i_startv)
+export(prepare_df)
 export(server)
