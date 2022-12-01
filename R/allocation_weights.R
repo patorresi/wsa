@@ -316,8 +316,7 @@ if(length(v_i020) != 0){
 # Create output file for IEA
 ################################################################################
 
-# iea file
-if(length(v_i020) != 0){
+{# iea file
 # After the algorithm work. we create three files. Two will be used by WinW3S
 # and the remainning one will be deliver to the IEA.
 # After the draft is ready, now the ouput will be assemble. 
