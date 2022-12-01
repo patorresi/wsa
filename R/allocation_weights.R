@@ -125,7 +125,7 @@ set.seed(as.numeric(y[3,]))
   samples = list(c(sample1,sample2),c(sample3,sample4))
 
 ################################################################################
-# Create output file for ISCED 02
+# Create output file for first file (ISCED 02 or ISCED 1)
 ################################################################################
 
 # After the algorithm work. we create three files. Two will be used by WinW3S
@@ -177,73 +177,105 @@ if(length(v_i002) != 0){
   df_ia_file[8 + nrow(df_a_filtered)+2,] = c(text_end_i02,"","","","","","")
 }else if(length(v_i010) != 0){
   # Second condition
-  df_ia_file = as.data.frame(matrix(rep("",56), nrow = 8, ncol = 7))
-}else{
-  # Blank file
-  df_ia_file = as.data.frame(matrix(rep("",56), nrow = 8, ncol = 7))
-}
-
-################################################################################
-# Create output file for ISCED 1
-################################################################################
-
-if(length(v_i020) != 0){
-# After the algorithm work. we create three files. Two will be used by WinW3S
-# and the remainning one will be deliver to the IEA.
-# After the draft is ready, now the ouput will be assemble. 
-
-df_b = x[samples[[2]],]
-
-# create an empty matrix with 9 rows for each one of the things will add to the
-# listing form. 
-# As was mentioned before, this one has 9 row because additional to the things
-# added for the ISCED 02 version, ISCED 1&2 have a school coordinator added.
-isb_header = as.data.frame(matrix(rep("",63), nrow = 9, ncol = 7))
-
-
-# the second parte is related to the additional info in top of the listing form
-# ISCED 02 will not have the name of the school coordinator.
-# text_title_i02 = 'TALIS 2024 - Starting Strong Survey FT - [ISCED Level 02] Listing Form'
-text_title_ib  = 'TALIS 2024 FT - [ISCED Level 1&2] Teacher Listing Form'
-isb_header[1,1] =  text_title_ib
-isb_header[3:6,1] = c("TALIS Country/Region",'School Name','School ID','School Coordinator')
-isb_header[3:6,3] = y[1:4,]
-# columns names in the listing form.
-isb_header[9,] = c('Teacher Name',
+  df_a = x[samples[[1]],]
+  i_a_header = as.data.frame(matrix(rep("",56), nrow = 8, ncol = 7))
+  text_title_i10 = 'TALIS 2024 - Starting Strong Survey FT - [ISCED Level 1] Listing Form'
+  i_a_header[1,1] =  text_title_i10
+  i_a_header[3:6,1] = c("TALIS Country/Region",'School Name','School ID','School Coordinator')
+  i_a_header[3:6,3] = y[1:4,]
+  i_a_header[9,] = c('Teacher Name',
                   'Sequence Number',
                   'Sequence Number',
                   'Exemption',
                   'Year of Birth',
                   'Gender',
                   'Main Subject Domain at [ISCED Level 1]')
-# Add the filtered teachers
-# First, we need to create a empty row with the hide column
-df_b$Exemption = ""
-df_b_filtered = df_b[,c(1,2,3,13,4,5,11)]
-names(df_b_filtered) = names(isb_header)
-df_ib_file = rbind(isb_header,df_b_filtered)
-# add the ending rows
-# 8 rows with the header values + number of teacher/staff added to the file
-# +1 blank space with the end line string
-# text_end_i02 = '??? Leader Role: 1 = Leader of this ECEC setting
-# ??? Staff Role: 1 = <Only leader (no pedagogical work)>; 2 = <Teacher>; 3 = <Assistant>; 4 = <Staff for individual children>; 
-# 5 = <Staff for special tasks>; 6 = <Intern>;  7 = <country-specific>; 8 = <country-specific>; 9 = <country-specific>; 10 = <country-specific>;   
-# 11 = <country-specific>; 12 = <country-specific>
-# ??? Year of Birth: YYYY;  9999 = Not specified
-# ??? Gender: 1 = Female;  2 = Male; 3 = Non-binary/diverse;  9 = Refused'
-
-df_ib_file[8 + nrow(df_b_filtered)+1,] = c("","","","","","",'<list_end>')
-# +2 the additional information
-# df_ib_file[8 + nrow(df_i2_filtered)+2,] = c(text_end_i02,"","","","","","")
+  # Add the filtered teachers
+  # First, we need to create a empty row with the hide column
+  df_a$Exemption = ""
+  df_a_filtered = df_a[,c(1,2,3,13,4,5,11)]
+  names(df_a_filtered) = names(isa_header)
+  df_ia_file = rbind(isa_header,df_a_filtered)
+  df_ia_file[8 + nrow(df_a_filtered)+1,] = c("","","","","","",'<list_end>')
 }else{
-  # ISCED 1
-  df_b = x[samples[[2]],]
-  isb_header = as.data.frame(matrix(rep("",63), nrow = 9, ncol = 7))
-  df_ib_file = df_b = x[samples[[2]],]
+  # Blank file
+  df_ia_file = as.data.frame("test")
 }
 
 ################################################################################
-# Create output file for ISCED 1
+# Create output file for ISCED level 1 or ISCED level 2
+################################################################################
+
+if(length(v_i020) != 0){
+  # After the algorithm work. we create three files. Two will be used by WinW3S
+  # and the remainning one will be deliver to the IEA.
+  # After the draft is ready, now the ouput will be assemble. 
+  df_b = x[samples[[2]],]
+  # create an empty matrix with 9 rows for each one of the things will add to the
+  # listing form. 
+  # As was mentioned before, this one has 9 row because additional to the things
+  # added for the ISCED 02 version, ISCED 1&2 have a school coordinator added.
+  isb_header = as.data.frame(matrix(rep("",63), nrow = 9, ncol = 7))
+
+  # the second parte is related to the additional info in top of the listing form
+  # ISCED 02 will not have the name of the school coordinator.
+  # text_title_i02 = 'TALIS 2024 - Starting Strong Survey FT - [ISCED Level 02] Listing Form'
+  text_title_ib  = 'TALIS 2024 FT - [ISCED Level 1&2] Teacher Listing Form'
+  isb_header[1,1] =  text_title_ib
+  isb_header[3:6,1] = c("TALIS Country/Region",'School Name','School ID','School Coordinator')
+  isb_header[3:6,3] = y[1:4,]
+  # columns names in the listing form.
+  isb_header[9,] = c('Teacher Name',
+                    'Sequence Number',
+                    'Sequence Number',
+                    'Exemption',
+                    'Year of Birth',
+                    'Gender',
+                    'Main Subject Domain at [ISCED Level 1]')
+  # Add the filtered teachers
+  # First, we need to create a empty row with the hide column
+  df_b$Exemption = ""
+  df_b_filtered = df_b[,c(1,2,3,13,4,5,11)]
+  names(df_b_filtered) = names(isb_header)
+  df_ib_file = rbind(isb_header,df_b_filtered)
+  # add the ending rows
+  # 8 rows with the header values + number of teacher/staff added to the file
+  # +1 blank space with the end line string
+  # text_end_i02 = '??? Leader Role: 1 = Leader of this ECEC setting
+  # ??? Staff Role: 1 = <Only leader (no pedagogical work)>; 2 = <Teacher>; 3 = <Assistant>; 4 = <Staff for individual children>; 
+  # 5 = <Staff for special tasks>; 6 = <Intern>;  7 = <country-specific>; 8 = <country-specific>; 9 = <country-specific>; 10 = <country-specific>;   
+  # 11 = <country-specific>; 12 = <country-specific>
+  # ??? Year of Birth: YYYY;  9999 = Not specified
+  # ??? Gender: 1 = Female;  2 = Male; 3 = Non-binary/diverse;  9 = Refused'
+  df_ib_file[8 + nrow(df_b_filtered)+1,] = c("","","","","","",'<list_end>')
+  # +2 the additional information
+  # df_ib_file[8 + nrow(df_i2_filtered)+2,] = c(text_end_i02,"","","","","","")
+}else if(length(v_i010) != 0){
+  # ISCED 2
+  df_b = x[samples[[2]],]
+  isb_header = as.data.frame(matrix(rep("",63), nrow = 9, ncol = 7))
+  text_title_ib  = 'TALIS 2024 FT - [ISCED Level 1&2] Teacher Listing Form'
+  isb_header[1,1] =  text_title_ib
+  isb_header[3:6,1] = c("TALIS Country/Region",'School Name','School ID','School Coordinator')
+  isb_header[3:6,3] = y[1:4,]
+  isb_header[9,] = c('Teacher Name',
+                    'Sequence Number',
+                    'Sequence Number',
+                    'Exemption',
+                    'Year of Birth',
+                    'Gender',
+                    'Main Subject Domain at [ISCED Level 1]')
+  df_b$Exemption = ""
+  df_b_filtered = df_b[,c(1,2,3,13,4,5,11)]
+  names(df_b_filtered) = names(isb_header)
+  df_ib_file = rbind(isb_header,df_b_filtered)
+  df_ib_file[8 + nrow(df_b_filtered)+1,] = c("","","","","","",'<list_end>')
+}else{
+  df_ib_file = as.data.frame(matrix(rep("",63), nrow = 9, ncol = 7))
+}
+
+################################################################################
+# Create output file for IEA
 ################################################################################
 
 # iea file
@@ -295,12 +327,9 @@ iea_file[8 + nrow(df_iea_filtered)+2,] = c(text_end_i02,"","","","","","")
 }
 
 
-
 # file_a, file_b and iea_file
 # file a will be made in the first and can be created from an ISCED level 02 or 1.
 # I02 = 0 else I1 = 0 else empty file.
 # I1 = 0 else I2 = 0 else empty file. 
-
 files = list(df_ia_file,df_ib_file,iea_file)
-
 }
