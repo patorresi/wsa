@@ -133,52 +133,55 @@ set.seed(as.numeric(y[3,]))
 # After the draft is ready, now the ouput will be assemble. 
 
 if(length(v_i002) != 0){
+  # First we select the sample selected in the previous step.
+  df_a = x[samples[[1]],]
 
-# First we select the sample selected in the previous step.
-df_a = x[samples[[1]],]
+  # create an empty matrix with 8 rows for each one of the things will add them 
+  # to the listing form. 
+  # The listing form from ISCED 02 and ISCED 1&2 Have the same number of columns
+  # but different number of rows (School coordinator require another row in the 
+  # info section)
+  i_a_header = as.data.frame(matrix(rep("",56), nrow = 8, ncol = 7))
+  # the second parte is related to the additional info in top of the listing form
+  # ISCED 02 will not have the name of the school coordinator.
+  # text_title_i02 = 'TALIS 2024 - Starting Strong Survey FT - [ISCED Level 02] Listing Form'
+  text_title_i02 = 'TALIS 2024 - Starting Strong Survey FT - [ISCED Level 02] Listing Form'
 
-# create an empty matrix with 8 rows for each one of the things will add them 
-# to the listing form. 
-# The listing form from ISCED 02 and ISCED 1&2 Have the same number of columns
-# but different number of rows (School coordinator require another row in the 
-# info section)
-is02_header = as.data.frame(matrix(rep("",56), nrow = 8, ncol = 7))
-# the second parte is related to the additional info in top of the listing form
-# ISCED 02 will not have the name of the school coordinator.
-# text_title_i02 = 'TALIS 2024 - Starting Strong Survey FT - [ISCED Level 02] Listing Form'
-text_title_i02 = 'TALIS 2024 - Starting Strong Survey FT - [ISCED Level 02] Listing Form'
+  i_a_header[1,1] =  text_title_i02
+  i_a_header[3:5,1] = c("Country/Region",'ECEC Setting Name','ECEC Setting ID')
+  i_a_header[3:5,3] = y[1:3,]
+  # columns names in the listing form.
+  i_a_header[8,] = c('Name',
+                    'Sequence Number',
+                    'Sequence Number',
+                    'Leader Role',
+                    'Staff Role',
+                    'Year of Birth',
+                    'Gender')
+  # reorganize the order of the columns.
+  df_a_filtered = df_a[,c(1,2,3,9,10,4,5)]
+  names(df_a_filtered) = names(i_a_header)[1:7]
+  df_ia_file = rbind(i_a_header,df_a_filtered)
+  # add the ending rows
+  # 8 rows with the header values + number of teacher/staff added to the file
+  # +1 blank space with the end line string
+  text_end_i02 = '??? Leader Role: 1 = Leader of this ECEC setting
+  ??? Staff Role: 1 = <Only leader (no pedagogical work)>; 2 = <Teacher>; 3 = <Assistant>; 4 = <Staff for individual children>; 
+  5 = <Staff for special tasks>; 6 = <Intern>;  7 = <country-specific>; 8 = <country-specific>; 9 = <country-specific>; 10 = <country-specific>;   
+  11 = <country-specific>; 12 = <country-specific>
+    ??? Year of Birth: YYYY;  9999 = Not specified
+  ??? Gender: 1 = Female;  2 = Male; 3 = Non-binary/diverse;  9 = Refused'
 
-is02_header[1,1] =  text_title_i02
-is02_header[3:5,1] = c("Country/Region",'ECEC Setting Name','ECEC Setting ID')
-is02_header[3:5,3] = y[1:3,]
-# columns names in the listing form.
-is02_header[8,] = c('Name',
-                  'Sequence Number',
-                  'Sequence Number',
-                  'Leader Role',
-                  'Staff Role',
-                  'Year of Birth',
-                  'Gender')
-# reorganize the order of the columns.
-df_a_filtered = df_a[,c(1,2,3,9,10,4,5)]
-names(df_a_filtered) = names(is02_header)[1:7]
-is02_file = rbind(is02_header,df_a_filtered)
-# add the ending rows
-# 8 rows with the header values + number of teacher/staff added to the file
-# +1 blank space with the end line string
-text_end_i02 = '??? Leader Role: 1 = Leader of this ECEC setting
-??? Staff Role: 1 = <Only leader (no pedagogical work)>; 2 = <Teacher>; 3 = <Assistant>; 4 = <Staff for individual children>; 
-5 = <Staff for special tasks>; 6 = <Intern>;  7 = <country-specific>; 8 = <country-specific>; 9 = <country-specific>; 10 = <country-specific>;   
-11 = <country-specific>; 12 = <country-specific>
-  ??? Year of Birth: YYYY;  9999 = Not specified
-??? Gender: 1 = Female;  2 = Male; 3 = Non-binary/diverse;  9 = Refused'
-
-is02_file[8 + nrow(df_a_filtered)+1,] = c("","","","","","",'<list_end>')
-# +2 the additional information
-is02_file[8 + nrow(df_a_filtered)+2,] = c(text_end_i02,"","","","","","")
-}else{
+  df_ia_file[8 + nrow(df_a_filtered)+1,] = c("","","","","","",'<list_end>')
+  # +2 the additional information
+  df_ia_file[8 + nrow(df_a_filtered)+2,] = c(text_end_i02,"","","","","","")
+}else if(length(v_i010) != 0){
+  # Second condition
   df_a = x[samples[[1]],]
   isa_header = as.data.frame(matrix(rep("",63), nrow = 9, ncol = 7))
+}else{
+  # Blank file
+  df_ia_file = as.data.frame(matrix(rep("",56), nrow = 8, ncol = 7))
 }
 
 ################################################################################
@@ -299,6 +302,6 @@ iea_file[8 + nrow(df_iea_filtered)+2,] = c(text_end_i02,"","","","","","")
 # I02 = 0 else I1 = 0 else empty file.
 # I1 = 0 else I2 = 0 else empty file. 
 
-files = list(is02_file,df_ib_file,iea_file)
+files = list(df_ia_file,df_ib_file,iea_file)
 
 }
