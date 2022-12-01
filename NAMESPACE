@@ -3,6 +3,7 @@
 export(allocation_KP)
 export(allocation_weights)
 export(cat_function)
+export(check_df)
 export(fill_df)
 export(i_startv)
 export(prepare_df)

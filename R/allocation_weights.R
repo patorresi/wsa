@@ -152,7 +152,6 @@ set.seed(as.numeric(y[3,]))
   print("--- Sample 4 ----")
   print(sample4)
   print(length(sample4))
-
   print("----Final Samples (A) ----")
   print(samples[[1]])
   print(length(samples[[1]]))
