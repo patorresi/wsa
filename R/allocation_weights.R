@@ -17,22 +17,37 @@ allocation_weights = function(x,y){
   v_i002 <<- which(!(set_values[,1] %in% values) == TRUE & 
     !(set_values[,2] %in% values) == FALSE &
     !(set_values[,3] %in% values) == FALSE)
+  print("--- ISCED 02 Staff ---")
+  print(length(v_i002))
+  print(v_i002)
   # ISCED 1 only
   v_i010 <<- which(!(set_values[,1] %in% values) == FALSE & 
     !(set_values[,2] %in% values) == TRUE &
     !(set_values[,3] %in% values) == FALSE)
+  print("--- ISCED 1 Teacher ---")
+  print(length(v_i010))
+  print(v_i010)
   # ISCED 2 only 
   v_i020 <<- which(!(set_values[,1] %in% values) == FALSE & 
     !(set_values[,2] %in% values) == FALSE &
     !(set_values[,3] %in% values) == TRUE)
+  print("--- ISCED 2 Teacher ---")
+  print(length(v_i020))
+  print(v_i020)
   # ISCED 02 & 1 
   v_i102 <<- which(!(set_values[,1] %in% values) == TRUE & 
     !(set_values[,2] %in% values) == TRUE &
     !(set_values[,3] %in% values) == FALSE)
+  print("--- ISCED 02&1 Teacher ---")
+  print(length(v_i102))
+  print(v_i102)
   # ISCED 1 & 2
   v_i120 <<- which(!(set_values[,1] %in% values) == FALSE & 
     !(set_values[,2] %in% values) == TRUE &
     !(set_values[,3] %in% values) == TRUE)
+  print("--- ISCED 1&2 Teacher ---")
+  print(length(v_i120))
+  print(v_i120)
   v1 <<- ifelse(length(v_i002) == 0,length(v_i010),length(v_i002))
   v2 <<- ifelse(length(v_i102) == 0,length(v_i120),length(v_i102))
   v3 <<- ifelse(length(v_i020) == 0,length(v_i010),length(v_i020))
@@ -116,13 +131,36 @@ set.seed(as.numeric(y[3,]))
     sample(v_i120,p2,replace=FALSE)}else{
     sample(v_i102,p2,replace=FALSE)}
   sample3 = if(length(v_i102) == 0){
-    sample(v_i120,p3,replace=FALSE)}else{
-    sample(v_i102,p3,replace=FALSE)}
+    sample(v_i120[!(v_i120 %in% sample2)],p3,replace=FALSE)}else{
+    sample(v_i102[!(v_i102 %in% sample2)],p3,replace=FALSE)}
   sample4 = if(length(v_i020) == 0){
     sample(v_i010,p4,replace=FALSE)}else{
     sample(v_i020,p4,replace=FALSE)}
 }
   samples = list(c(sample1,sample2),c(sample3,sample4))
+
+# Temporally added so we can check the results easily.  
+  print("--- Sample 1 ----")
+  print(sample1)
+  print(length(sample1))
+  print("--- Sample 2 ----")
+  print(sample2)
+  print(length(sample2))
+  print("--- Sample 3 ----")
+  print(sample3)
+  print(length(sample3))
+  print("--- Sample 4 ----")
+  print(sample4)
+  print(length(sample4))
+
+  print("----Final Samples (A) ----")
+  print(samples[[1]])
+  print(length(samples[[1]]))
+  print("----Final Samples (B) ----")
+  print(samples[[2]])
+  print(length(samples[[2]]))
+  print("----Repeated values between samples?) ----")
+  print(samples[[1]] %in% samples[[2]])
 
 ################################################################################
 # Create output file for first file (ISCED 02 or ISCED 1)
