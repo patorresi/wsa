@@ -177,8 +177,7 @@ if(length(v_i002) != 0){
   df_ia_file[8 + nrow(df_a_filtered)+2,] = c(text_end_i02,"","","","","","")
 }else if(length(v_i010) != 0){
   # Second condition
-  df_a = x[samples[[1]],]
-  isa_header = as.data.frame(matrix(rep("",63), nrow = 9, ncol = 7))
+  df_ia_file = as.data.frame(matrix(rep("",56), nrow = 8, ncol = 7))
 }else{
   # Blank file
   df_ia_file = as.data.frame(matrix(rep("",56), nrow = 8, ncol = 7))
