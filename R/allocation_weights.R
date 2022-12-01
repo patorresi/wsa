@@ -194,8 +194,8 @@ if(length(v_i002) != 0){
   # First, we need to create a empty row with the hide column
   df_a$Exemption = ""
   df_a_filtered = df_a[,c(1,2,3,13,4,5,11)]
-  names(df_a_filtered) = names(isa_header)
-  df_ia_file = rbind(isa_header,df_a_filtered)
+  names(df_a_filtered) = names(i_a_header)
+  df_ia_file = rbind(i_a_header,df_a_filtered)
   df_ia_file[8 + nrow(df_a_filtered)+1,] = c("","","","","","",'<list_end>')
 }else{
   # Blank file
