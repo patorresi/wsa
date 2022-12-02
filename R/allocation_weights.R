@@ -48,9 +48,9 @@ allocation_weights = function(x,y){
   print("--- ISCED 1&2 Teacher ---")
   print(length(v_i120))
   print(v_i120)
-  v1 <<- ifelse(length(v_i002) == 0,length(v_i010),length(v_i002))
+  v1 <<- ifelse(length(v_i002) == 0 & length(v_i102) == 0,length(v_i010),length(v_i002))
   v2 <<- ifelse(length(v_i102) == 0,length(v_i120),length(v_i102))
-  v3 <<- ifelse(length(v_i020) == 0,length(v_i010),length(v_i020))
+  v3 <<- ifelse(length(v_i020) == 0 & length(v_i120) == 0,length(v_i010),length(v_i020))
   # these values are relevant in the first case.
   rs_1 <<- ifelse(length(v_i002) == 0,20,8)
   rs_2 <<- 20
@@ -59,7 +59,7 @@ allocation_weights = function(x,y){
   p1 = ifelse(v1 == 0,0,1)
   p2 = ifelse(v2 == 0,0,ifelse(v2 == 1,sample(c(0,1),2,replace=FALSE)[1],1))
   p3 = ifelse(v2 == 0,0,ifelse(v2 == 1,sample(c(0,1),2,replace=FALSE)[1],1))
-  p4 = ifelse(v1 == 0,0,1)
+  p4 = ifelse(v3 == 0,0,1)
   # we remove from the cases from the samples
   i_v1 = ifelse(v1 == 0,0,v1[[1]] - 1)
   i_v2 = ifelse(v2 <= 1,0,v2[[1]] - 2)
@@ -212,7 +212,7 @@ if(length(v_i002) != 0){
   df_ia_file[8 + nrow(df_a_filtered)+1,] = c("","","","","","",'<list_end>')
   # +2 the additional information
   df_ia_file[8 + nrow(df_a_filtered)+2,] = c(text_end_i02,"","","","","","")
-}else if(length(v_i010) != 0){
+}else if(length(v_i002) == 0 & length(v_i010) != 0){
   # Second condition
   df_a = x[samples[[1]],]
   i_a_header = as.data.frame(matrix(rep("",56), nrow = 8, ncol = 7))
@@ -236,7 +236,7 @@ if(length(v_i002) != 0){
   df_ia_file[9 + nrow(df_a_filtered)+1,] = c("","","","","","",'<list_end>')
 }else{
   # Blank file
-  df_ia_file = as.data.frame("test")
+  df_ia_file = as.data.frame(matrix(rep("",56), nrow = 8, ncol = 7))
 }
 
 ################################################################################
@@ -268,11 +268,11 @@ if(length(v_i020) != 0){
                     'Exemption',
                     'Year of Birth',
                     'Gender',
-                    'Main Subject Domain at [ISCED Level 1]')
+                    'Main Subject Domain at [ISCED Level 2]')
   # Add the filtered teachers
   # First, we need to create a empty row with the hide column
   df_b$Exemption = ""
-  df_b_filtered = df_b[,c(1,2,3,13,4,5,11)]
+  df_b_filtered = df_b[,c(1,2,3,13,4,5,12)]
   names(df_b_filtered) = names(isb_header)
   df_ib_file = rbind(isb_header,df_b_filtered)
   # add the ending rows
@@ -287,7 +287,7 @@ if(length(v_i020) != 0){
   df_ib_file[9 + nrow(df_b_filtered)+1,] = c("","","","","","",'<list_end>')
   # +2 the additional information
   # df_ib_file[8 + nrow(df_i2_filtered)+2,] = c(text_end_i02,"","","","","","")
-}else if(length(v_i010) != 0){
+}else if(length(v_i020) == 0 & length(v_i010) != 0){
   # ISCED 2
   df_b = x[samples[[2]],]
   isb_header = as.data.frame(matrix(rep("",63), nrow = 9, ncol = 7))
@@ -322,44 +322,19 @@ if(length(v_i020) != 0){
 
 df_iea = x
 df_iea[,1] = "ID"
-# create an empty matrix with 8 rows for each one of the things will add to the
-# listing form. 
-# The listing form from ISCED 02 and ISCED 1&2 Have the same number of columns
-# but different number of rows (School coordinator require another row in the 
-# info section)
-iea_header = as.data.frame(matrix(rep("",56), nrow = 8, ncol = 7))
-# the second parte is related to the additional info in top of the listing form
-# ISCED 02 will not have the name of the school coordinator.
-# text_title_i02 = 'TALIS 2024 - Starting Strong Survey FT - [ISCED Level 02] Listing Form'
-text_title_iea = 'TALIS 2024 - Survey FT - Listing Form'
-iea_header[1,1] =  text_title_iea
-iea_header[3:5,1] = c("Country/Region",'ECEC Setting Name','ECEC Setting ID')
-iea_header[3:5,3] = y[1:3,]
-# columns names in the listing form.
-iea_header[8,] = c('Name',
-                  'Sequence Number',
-                  'Sequence Number',
-                  'Leader Role',
-                  'Staff Role',
-                  'Year of Birth',
-                  'Gender')
-# Add the filtered teachers
-df_iea_filtered = df_iea[,c(1,2,3,9,10,4,5)]
-names(df_iea_filtered) = names(iea_header)[1:7]
-iea_file = rbind(iea_header,df_iea_filtered)
-# add the ending rows
-# 8 rows with the header values + number of teacher/staff added to the file
-# +1 blank space with the end line string
-text_end_i02 = '??? Leader Role: 1 = Leader of this ECEC setting
-??? Staff Role: 1 = <Only leader (no pedagogical work)>; 2 = <Teacher>; 3 = <Assistant>; 4 = <Staff for individual children>; 
-5 = <Staff for special tasks>; 6 = <Intern>;  7 = <country-specific>; 8 = <country-specific>; 9 = <country-specific>; 10 = <country-specific>;   
-11 = <country-specific>; 12 = <country-specific>
-  ??? Year of Birth: YYYY;  9999 = Not specified
-??? Gender: 1 = Female;  2 = Male; 3 = Non-binary/diverse;  9 = Refused'
-
-iea_file[8 + nrow(df_iea_filtered)+1,] = c("","","","","","",'<list_end>')
-# +2 the additional information
-iea_file[8 + nrow(df_iea_filtered)+2,] = c(text_end_i02,"","","","","","")
+colnames(df_iea) = c("Teacher Name",
+"Sequence Number",
+"Sequence Number",
+"Year of Birth",
+"Gender",
+"[ISCED level 02]",
+"[ISCED level 1]",
+"[ISCED level 2]",
+"Leader Role [ISCED level 02]",
+"Staff Role [ISCED level 02]",
+"Main Subject Domain at [ISCED Level 1]",
+"Main Subject Domain at [ISCED Level 2]")
+iea_file = df_iea
 }
 
 
