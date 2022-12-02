@@ -306,7 +306,7 @@ if(length(v_i020) != 0){
   df_b_filtered = df_b[,c(1,2,3,13,4,5,11)]
   names(df_b_filtered) = names(isb_header)
   df_ib_file = rbind(isb_header,df_b_filtered)
-  df_ib_file[8 + nrow(df_b_filtered)+1,] = c("","","","","","",'<list_end>')
+  df_ib_file[9 + nrow(df_b_filtered)+1,] = c("","","","","","",'<list_end>')
 }else{
   df_ib_file = as.data.frame(matrix(rep("",63), nrow = 9, ncol = 7))
 }
