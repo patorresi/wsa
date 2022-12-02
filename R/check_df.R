@@ -64,10 +64,9 @@ w5 = sum(apply(df[,c(6,7,8)],1,FUN=function(x){sum(as.numeric(x))}) >= 1) == nro
 w6 = (i02v + i10v + i20v)<=2
 
 
-if(sum(c(w0,w1,w2,w3,w4,w5,w6))==length(c(w0,w1,w2,w3,w4,w5,w6))){
-  print("The uploaded information is ready to be processed")
-}else{print("There is a problem with the uploaded information, please review the listing form and upload it again.")}
+value = sum(c(w0,w1,w2,w3,w4,w5,w6))==length(c(w0,w1,w2,w3,w4,w5,w6))
 
 # print("You should revise the list form. Some of the rows may not contain all the necesary fields completed.")
 # print("Ready to go!")
 }
+
