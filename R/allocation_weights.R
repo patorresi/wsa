@@ -58,7 +58,7 @@ allocation_weights = function(x,y){
   # p = c(p1=1,p2=1,p3=1,p4=1)
   p1 = ifelse(v1 == 0,0,1)
   p2 = ifelse(v2 == 0,0,ifelse(v2 == 1,sample(c(0,1),2,replace=FALSE)[1],1))
-  p3 = ifelse(v2 == 0,0,ifelse(v2 == 1,sample(c(0,1),2,replace=FALSE)[1],1))
+  p3 = ifelse(v2 == 0,0,ifelse(v2 == 1,sample(c(0,1),2,replace=FALSE)[2],1))
   p4 = ifelse(v3 == 0,0,1)
   # we remove from the cases from the samples
   i_v1 = ifelse(v1 == 0,0,v1[[1]] - 1)
