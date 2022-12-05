@@ -10,7 +10,7 @@
 
 allocation_weights = function(x,y){
 {
-  set.seed(1)
+  set.seed(as.numeric(y[3,]))
   set_values = as.data.frame(apply(x[,c(6,7,8,9)],2,function(x){as.numeric(x)}))
   values = c(0)
   # Set the samples --------------------------------
@@ -23,6 +23,7 @@ allocation_weights = function(x,y){
   print("--- ISCED 02 Staff ---")
   print(length(v_i002))
   print(v_i002)
+  print(v_i002l)
   # ISCED 1 only
   v_i010 <<- which(!(set_values[,1] %in% values) == FALSE & 
     !(set_values[,2] %in% values) == TRUE &
@@ -59,11 +60,11 @@ allocation_weights = function(x,y){
     !(set_values[,2] %in% values) == FALSE &
     !(set_values[,3] %in% values) == TRUE  &
     !(set_values[,4] == 1))
-  print("--- ISCED 1&2 Teacher ---")
+  print("--- ISCED 02&2 Teacher ---")
   print(length(v_i202))
   print(v_i202)
   v1 <<- ifelse(length(v_i002) == 0 & length(v_i102) == 0,length(v_i010),length(v_i002))
-  v2 <<- ifelse(length(v_i102) == 0,length(v_i120),length(v_i102))
+  v2 <<- ifelse(length(v_i102) != 0,length(v_i102),ifelse(length(v_i120) == 0,length(v_i202),length(v_i120)))
   v3 <<- ifelse(length(v_i020) == 0 & length(v_i120) == 0,length(v_i010),length(v_i020))
   # these values are relevant in the first case.
   rs_1 <<- ifelse(length(v_i002) == 0,20,8)
@@ -148,12 +149,14 @@ set.seed(as.numeric(y[3,]))
 resample = function(x, ...) x[sample.int(length(x), ...)]
   sample1 = if(length(v_i002) == 0){
     resample(v_i010,p1,replace=FALSE)}else{c(resample(v_i002,p1,replace=FALSE),v_i002l)}
-  sample2 = if(length(v_i102) == 0){
+  sample2 = if(length(v_i102) != 0){
+    resample(v_i102,p2,replace=FALSE)}else if(length(v_i120)!= 0){
     resample(v_i120,p2,replace=FALSE)}else{
-    resample(v_i102,p2,replace=FALSE)}
-  sample3 = if(length(v_i102) == 0){
-    resample(v_i120[!(v_i120 %in% sample2)],p3,replace=FALSE)}else{
-    resample(v_i102[!(v_i102 %in% sample2)],p3,replace=FALSE)}
+      resample(v_i202,p2,replace=FALSE)}
+  sample3 = if(length(v_i102) != 0){
+    resample(v_i120[!(v_i102 %in% sample2)],p3,replace=FALSE)}else if(length(v_i120)!= 0){
+    resample(v_i102[!(v_i102 %in% sample2)],p3,replace=FALSE)}else{
+      resample(v_i202[!(v_i202 %in% sample2)],p3,replace=FALSE)}
   sample4 = if(length(v_i020) == 0){
     resample(v_i010,p4,replace=FALSE)}else{
     resample(v_i020,p4,replace=FALSE)}
