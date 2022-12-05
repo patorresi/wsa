@@ -11,19 +11,23 @@
 allocation_weights = function(x,y){
 {
   set.seed(1)
-  set_values = as.data.frame(apply(x[,c(6,7,8)],2,function(x){as.numeric(x)}))
+  set_values = as.data.frame(apply(x[,c(6,7,8,9)],2,function(x){as.numeric(x)}))
   values = c(0)
   # Set the samples --------------------------------
+  # We remove from the selecting process the leader from the ISCED level 2.
   v_i002 <<- which(!(set_values[,1] %in% values) == TRUE & 
     !(set_values[,2] %in% values) == FALSE &
-    !(set_values[,3] %in% values) == FALSE)
+    !(set_values[,3] %in% values) == FALSE &
+    !(set_values[,4] == 1))
+  v_i002l<<- which(set_values[,1] == 1 & set_values[,4] == 1)
   print("--- ISCED 02 Staff ---")
   print(length(v_i002))
   print(v_i002)
   # ISCED 1 only
   v_i010 <<- which(!(set_values[,1] %in% values) == FALSE & 
     !(set_values[,2] %in% values) == TRUE &
-    !(set_values[,3] %in% values) == FALSE)
+    !(set_values[,3] %in% values) == FALSE |
+    (set_values[,1] == 1 & set_values[,4] == 1))
   print("--- ISCED 1 Teacher ---")
   print(length(v_i010))
   print(v_i010)
@@ -37,7 +41,8 @@ allocation_weights = function(x,y){
   # ISCED 02 & 1 
   v_i102 <<- which(!(set_values[,1] %in% values) == TRUE & 
     !(set_values[,2] %in% values) == TRUE &
-    !(set_values[,3] %in% values) == FALSE)
+    !(set_values[,3] %in% values) == FALSE  &
+    !(set_values[,4] == 1))
   print("--- ISCED 02&1 Teacher ---")
   print(length(v_i102))
   print(v_i102)
@@ -48,6 +53,13 @@ allocation_weights = function(x,y){
   print("--- ISCED 1&2 Teacher ---")
   print(length(v_i120))
   print(v_i120)
+  # ISCED 02 & 2
+  v_i202 <<- which(!(set_values[,1] %in% values) == TRUE & 
+    !(set_values[,2] %in% values) == FALSE &
+    !(set_values[,3] %in% values) == TRUE)
+  print("--- ISCED 1&2 Teacher ---")
+  print(length(v_i202))
+  print(v_i202)
   v1 <<- ifelse(length(v_i002) == 0 & length(v_i102) == 0,length(v_i010),length(v_i002))
   v2 <<- ifelse(length(v_i102) == 0,length(v_i120),length(v_i102))
   v3 <<- ifelse(length(v_i020) == 0 & length(v_i120) == 0,length(v_i010),length(v_i020))
@@ -56,9 +68,10 @@ allocation_weights = function(x,y){
   rs_2 <<- 20
   # set the bins with one case each one.
   # p = c(p1=1,p2=1,p3=1,p4=1)
+  random_p = sample(c(0,1),2,replace=FALSE)
   p1 = ifelse(v1 == 0,0,1)
-  p2 = ifelse(v2 == 0,0,ifelse(v2 == 1,sample(c(0,1),2,replace=FALSE)[1],1))
-  p3 = ifelse(v2 == 0,0,ifelse(v2 == 1,sample(c(0,1),2,replace=FALSE)[2],1))
+  p2 = ifelse(v2 == 0,0,ifelse(v2 == 1,random_p[1],1))
+  p3 = ifelse(v2 == 0,0,ifelse(v2 == 1,random_p[2],1))
   p4 = ifelse(v3 == 0,0,1)
   # we remove from the cases from the samples
   i_v1 = ifelse(v1 == 0,0,v1[[1]] - 1)
@@ -84,6 +97,7 @@ allocation_weights = function(x,y){
        }
 }
 
+# Sample algorithm
 i = 0
 while(i == FALSE){
     # sampled cases
@@ -118,18 +132,20 @@ while(i == FALSE){
            ifelse(c1[3] == TRUE | c2[3] == TRUE,0,1),
            ifelse(c1[4] == TRUE | c2[4] == TRUE,0,1))
     sw_sc = w_sc*c3
-i = ifelse(sum(c3) == 0,TRUE,FALSE)
+i = ifelse(sum(c3) == 0,TRUE,FALSE)}
 
-}
+print("---Sampled values---")
+print(c(p1,p2,p3,p4))
+print("--------------------")
 
 
+# Select sample cases
 {
 # The seed was set based on the code of the school.
 set.seed(as.numeric(y[3,]))
 resample = function(x, ...) x[sample.int(length(x), ...)]
   sample1 = if(length(v_i002) == 0){
-    resample(v_i010,p1,replace=FALSE)}else{
-    resample(v_i002,p1,replace=FALSE)}
+    resample(v_i010,p1,replace=FALSE)}else{c(resample(v_i002,p1,replace=FALSE),v_i002l)}
   sample2 = if(length(v_i102) == 0){
     resample(v_i120,p2,replace=FALSE)}else{
     resample(v_i102,p2,replace=FALSE)}
@@ -140,6 +156,7 @@ resample = function(x, ...) x[sample.int(length(x), ...)]
     resample(v_i010,p4,replace=FALSE)}else{
     resample(v_i020,p4,replace=FALSE)}
 }
+  
   samples = list(c(sample1,sample2),c(sample3,sample4))
 
 # Temporally added so we can check the results easily.  
@@ -168,11 +185,16 @@ resample = function(x, ...) x[sample.int(length(x), ...)]
 # Create output file for first file (ISCED 02 or ISCED 1)
 ################################################################################
 
+doc_values = c(0,0,0)
+doc_values[1] = if(length(which(set_values[,1] == 1)) == 0){0}else{1}
+doc_values[2] = if(length(which(set_values[,2] == 1)) == 0){0}else{1}
+doc_values[3] = if(length(which(set_values[,3] == 1)) == 0){0}else{1}
+
 # After the algorithm work. we create three files. Two will be used by WinW3S
 # and the remainning one will be deliver to the IEA.
 # After the draft is ready, now the ouput will be assemble. 
 
-if(length(v_i002) != 0){
+if(doc_values[1] == 1){
   # First we select the sample selected in the previous step.
   df_a = x[samples[[1]],]
 
@@ -215,7 +237,7 @@ if(length(v_i002) != 0){
   df_ia_file[8 + nrow(df_a_filtered)+1,] = c("","","","","","",'<list_end>')
   # +2 the additional information
   df_ia_file[8 + nrow(df_a_filtered)+2,] = c(text_end_i02,"","","","","","")
-}else if(length(v_i002) == 0 & length(v_i010) != 0){
+}else if(doc_values[1] == 0 & doc_values[2] == 1){
   # Second condition
   df_a = x[samples[[1]],]
   i_a_header = as.data.frame(matrix(rep("",56), nrow = 8, ncol = 7))
@@ -246,7 +268,7 @@ if(length(v_i002) != 0){
 # Create output file for ISCED level 1 or ISCED level 2
 ################################################################################
 
-if(length(v_i020) != 0){
+if(doc_values[2] == 0 & doc_values[3] == 1){
   # After the algorithm work. we create three files. Two will be used by WinW3S
   # and the remainning one will be deliver to the IEA.
   # After the draft is ready, now the ouput will be assemble. 
@@ -290,7 +312,7 @@ if(length(v_i020) != 0){
   df_ib_file[9 + nrow(df_b_filtered)+1,] = c("","","","","","",'<list_end>')
   # +2 the additional information
   # df_ib_file[8 + nrow(df_i2_filtered)+2,] = c(text_end_i02,"","","","","","")
-}else if(length(v_i020) == 0 & length(v_i010) != 0){
+}else if(doc_values[2] == 1 & doc_values[3] == 0){
   # ISCED 2
   df_b = x[samples[[2]],]
   isb_header = as.data.frame(matrix(rep("",63), nrow = 9, ncol = 7))
