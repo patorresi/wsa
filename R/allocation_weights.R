@@ -89,7 +89,8 @@ while(i == FALSE){
     # sampled cases
     sc = c(p1,p2,p3,p4)
     # respective weights
-    w_sc = c(v1,v2,v2,v3)/sc 
+    w_sc = c(v1,v2,v2,v3)/sc
+    w_sc[which(is.infinite(w_sc) == TRUE)] = 0
     w_sc[which(is.nan(w_sc) == TRUE)] = 0
     p1 = p1 + ifelse(which.max(sw_sc) == 1,1,0)
     p2 = p2 + ifelse(which.max(sw_sc) == 2,1,0)
@@ -121,21 +122,23 @@ i = ifelse(sum(c3) == 0,TRUE,FALSE)
 
 }
 
+
 {
 # The seed was set based on the code of the school.
 set.seed(as.numeric(y[3,]))
+resample = function(x, ...) x[sample.int(length(x), ...)]
   sample1 = if(length(v_i002) == 0){
-    sample(v_i010,p1,replace=FALSE)}else{
-    sample(v_i002,p1,replace=FALSE)}
+    resample(v_i010,p1,replace=FALSE)}else{
+    resample(v_i002,p1,replace=FALSE)}
   sample2 = if(length(v_i102) == 0){
-    sample(v_i120,p2,replace=FALSE)}else{
-    sample(v_i102,p2,replace=FALSE)}
+    resample(v_i120,p2,replace=FALSE)}else{
+    resample(v_i102,p2,replace=FALSE)}
   sample3 = if(length(v_i102) == 0){
-    sample(v_i120[!(v_i120 %in% sample2)],p3,replace=FALSE)}else{
-    sample(v_i102[!(v_i102 %in% sample2)],p3,replace=FALSE)}
+    resample(v_i120[!(v_i120 %in% sample2)],p3,replace=FALSE)}else{
+    resample(v_i102[!(v_i102 %in% sample2)],p3,replace=FALSE)}
   sample4 = if(length(v_i020) == 0){
-    sample(v_i010,p4,replace=FALSE)}else{
-    sample(v_i020,p4,replace=FALSE)}
+    resample(v_i010,p4,replace=FALSE)}else{
+    resample(v_i020,p4,replace=FALSE)}
 }
   samples = list(c(sample1,sample2),c(sample3,sample4))
 
