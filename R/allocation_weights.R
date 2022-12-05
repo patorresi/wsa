@@ -27,14 +27,15 @@ allocation_weights = function(x,y){
   v_i010 <<- which(!(set_values[,1] %in% values) == FALSE & 
     !(set_values[,2] %in% values) == TRUE &
     !(set_values[,3] %in% values) == FALSE |
-    (set_values[,1] == 1 & set_values[,4] == 1))
+    (set_values[,1] == 1 & set_values[,2] == 1 & set_values[,4] == 1))
   print("--- ISCED 1 Teacher ---")
   print(length(v_i010))
   print(v_i010)
   # ISCED 2 only 
   v_i020 <<- which(!(set_values[,1] %in% values) == FALSE & 
     !(set_values[,2] %in% values) == FALSE &
-    !(set_values[,3] %in% values) == TRUE)
+    !(set_values[,3] %in% values) == TRUE |
+    (set_values[,1] == 1 & set_values[,3] == 1 & set_values[,4] == 1))
   print("--- ISCED 2 Teacher ---")
   print(length(v_i020))
   print(v_i020)
@@ -56,7 +57,8 @@ allocation_weights = function(x,y){
   # ISCED 02 & 2
   v_i202 <<- which(!(set_values[,1] %in% values) == TRUE & 
     !(set_values[,2] %in% values) == FALSE &
-    !(set_values[,3] %in% values) == TRUE)
+    !(set_values[,3] %in% values) == TRUE  &
+    !(set_values[,4] == 1))
   print("--- ISCED 1&2 Teacher ---")
   print(length(v_i202))
   print(v_i202)
