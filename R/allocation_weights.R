@@ -155,8 +155,8 @@ resample = function(x, ...) x[sample.int(length(x), ...)]
     resample(v_i120,p2,replace=FALSE)}else{
       resample(v_i202,p2,replace=FALSE)}
   sample3 = if(length(v_i102) != 0){
-    resample(v_i120[!(v_i102 %in% sample2)],p3,replace=FALSE)}else if(length(v_i120)!= 0){
-    resample(v_i102[!(v_i102 %in% sample2)],p3,replace=FALSE)}else{
+    resample(v_i102[!(v_i102 %in% sample2)],p3,replace=FALSE)}else if(length(v_i120)!= 0){
+    resample(v_i120[!(v_i120 %in% sample2)],p3,replace=FALSE)}else{
       resample(v_i202[!(v_i202 %in% sample2)],p3,replace=FALSE)}
   sample4 = if(length(v_i020) == 0){
     resample(v_i010,p4,replace=FALSE)}else{
