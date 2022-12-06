@@ -23,6 +23,7 @@ allocation_weights = function(x,y){
   print("--- ISCED 02 Staff ---")
   print(length(v_i002))
   print(v_i002)
+  print("--- ISCED 02 Leader (Excluded from sample) ---")
   print(v_i002l)
   # ISCED 1 only
   v_i010 <<- which(!(set_values[,1] %in% values) == FALSE & 
@@ -350,9 +351,9 @@ if(doc_values[2] == 0 & doc_values[3] == 1){
 # and the remainning one will be deliver to the IEA.
 # After the draft is ready, now the ouput will be assemble. 
 
-df_iea = x
-df_iea[,1] = "ID"
-colnames(df_iea) = c("Teacher Name",
+iea_file = x
+iea_file[,1] = "ID"
+colnames(iea_file) = c("Teacher Name",
 "Sequence Number",
 "Sequence Number",
 "Year of Birth",
@@ -364,13 +365,21 @@ colnames(df_iea) = c("Teacher Name",
 "Staff Role [ISCED level 02]",
 "Main Subject Domain at [ISCED Level 1]",
 "Main Subject Domain at [ISCED Level 2]")
-iea_file = df_iea
 }
 
+
+################################################################################
+# Names for the files
+################################################################################
+ia_file_name = if(which(doc_values == 1)[1] == 1){
+  "ISCED02"}else{"ISCED1"}
+
+ib_file_name = if(which(doc_values == 1)[3] == 1){
+  "ISCED2"}else{"ISCED1"}
 
 # file_a, file_b and iea_file
 # file a will be made in the first and can be created from an ISCED level 02 or 1.
 # I02 = 0 else I1 = 0 else empty file.
 # I1 = 0 else I2 = 0 else empty file. 
-files = list(df_ia_file,df_ib_file,iea_file)
+files = list(df_ia_file,df_ib_file,iea_file,ia_file_name,ib_file_name)
 }
