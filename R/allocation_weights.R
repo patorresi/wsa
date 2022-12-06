@@ -371,12 +371,10 @@ colnames(iea_file) = c("Teacher Name",
 ################################################################################
 # Names for the files
 ################################################################################
-ia_file_name = if(which(doc_values == 1)[1] == 1){
+ia_file_name = if(doc_values[1] == 1){
   "ISCED02"}else{"ISCED1"}
-
-ib_file_name = if(which(doc_values == 1)[3] == 1){
+ib_file_name = if(doc_values[3] == 1){
   "ISCED2"}else{"ISCED1"}
-
 # file_a, file_b and iea_file
 # file a will be made in the first and can be created from an ISCED level 02 or 1.
 # I02 = 0 else I1 = 0 else empty file.
