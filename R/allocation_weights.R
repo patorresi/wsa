@@ -247,7 +247,7 @@ if(doc_values[1] == 1){
   # Second condition
   df_a = x[samples[[1]],]
   i_a_header = as.data.frame(matrix(rep("",56), nrow = 8, ncol = 7))
-  text_title_i10 = 'TALIS 2024 - Starting Strong Survey FT - [ISCED Level 1] Listing Form'
+  text_title_i10 = 'TALIS 2024 - [ISCED Level 1&2] Teacher Listing Form'
   i_a_header[1,1] =  text_title_i10
   i_a_header[3:6,1] = c("TALIS Country/Region",'School Name','School ID','School Coordinator')
   i_a_header[3:6,3] = y[1:4,]
@@ -274,7 +274,7 @@ if(doc_values[1] == 1){
 # Create output file for ISCED level 1 or ISCED level 2
 ################################################################################
 
-if(doc_values[2] == 0 & doc_values[3] == 1){
+if(doc_values[3] == 1){
   # After the algorithm work. we create three files. Two will be used by WinW3S
   # and the remainning one will be deliver to the IEA.
   # After the draft is ready, now the ouput will be assemble. 
@@ -318,7 +318,7 @@ if(doc_values[2] == 0 & doc_values[3] == 1){
   df_ib_file[9 + nrow(df_b_filtered)+1,] = c("","","","","","",'<list_end>')
   # +2 the additional information
   # df_ib_file[8 + nrow(df_i2_filtered)+2,] = c(text_end_i02,"","","","","","")
-}else if(doc_values[2] == 1 & doc_values[3] == 0){
+}else if(doc_values[2] == 1 & doc_values[1] == 0){
   # ISCED 2
   df_b = x[samples[[2]],]
   isb_header = as.data.frame(matrix(rep("",63), nrow = 9, ncol = 7))
