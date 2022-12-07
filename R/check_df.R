@@ -67,8 +67,8 @@ w4 = sum(mapply(fun1,df[,8],df[,12])) == nrow(df)
 # Rule 5
 # All teachers or staff needed be list it at least one ISCED level
 # and no more than 2. 
-w5 = sum(apply(df[,c(6,7,8)],1,FUN=function(x){sum(as.numeric(x))}) >= 1 &
-apply(df[,c(6,7,8)],1,FUN=function(x){sum(as.numeric(x))}) <= 2) == nrow(df)
+w5 = sum(apply(df[,c(6,7,8)],1,FUN=function(x){sum(as.numeric(x))}) > 0 &
+apply(df[,c(6,7,8)],1,FUN=function(x){sum(as.numeric(x))}) < 3) == nrow(df)
  
 value = (sum(c(w0,w1,w2,w3,w4,w5)) == length(c(w0,w1,w2,w3,w4,w5)))
 
