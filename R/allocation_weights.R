@@ -318,7 +318,7 @@ if(doc_values[3] == 1){
   df_ib_file[9 + nrow(df_b_filtered)+1,] = c("","","","","","",'<list_end>')
   # +2 the additional information
   # df_ib_file[8 + nrow(df_i2_filtered)+2,] = c(text_end_i02,"","","","","","")
-}else if(doc_values[2] == 1 & doc_values[1] == 0){
+}else if(doc_values[3] == 0 & doc_values[2] == 1){
   # ISCED 2
   df_b = x[samples[[2]],]
   isb_header = as.data.frame(matrix(rep("",63), nrow = 9, ncol = 7))
