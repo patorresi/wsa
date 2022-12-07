@@ -204,6 +204,3 @@ ib_file_name = if(doc_values[3] == 1){
 # I1 = 0 else I2 = 0 else empty file. 
 files = list(df_ia_file,df_ib_file,iea_file,ia_file_name,ib_file_name)
 }
-
-
-t = single_case(x,y)
