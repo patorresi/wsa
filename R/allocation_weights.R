@@ -111,14 +111,14 @@ while(i == FALSE){
     w_sc = c(v1,v2,v2,v3)/sc
     w_sc[which(is.infinite(w_sc) == TRUE)] = 0
     w_sc[which(is.nan(w_sc) == TRUE)] = 0
-    p1 = p1 + ifelse(which.max(sw_sc) == 1,1,0)
-    p2 = p2 + ifelse(which.max(sw_sc) == 2,1,0)
-    p3 = p3 + ifelse(which.max(sw_sc) == 3,1,0)
-    p4 = p4 + ifelse(which.max(sw_sc) == 4,1,0)
+    p1 = p1 + ifelse(which.max(w_sc*c3) == 1,1,0)
+    p2 = p2 + ifelse(which.max(w_sc*c3) == 2,1,0)
+    p3 = p3 + ifelse(which.max(w_sc*c3) == 3,1,0)
+    p4 = p4 + ifelse(which.max(w_sc*c3) == 4,1,0)
     # we remove one of the cases from the total sample
-    i_v1 = i_v1 - ifelse(which.max(sw_sc) == 1,1,0)
-    i_v2 = i_v2 - ifelse(which.max(sw_sc) == 2 | which.max(sw_sc) == 3 ,1,0)
-    i_v3 = i_v3 - ifelse(which.max(sw_sc) == 4,1,0)
+    i_v1 = i_v1 - ifelse(which.max(w_sc*c3) == 1,1,0)
+    i_v2 = i_v2 - ifelse(which.max(w_sc*c3) == 2 | which.max(w_sc*c3) == 3 ,1,0)
+    i_v3 = i_v3 - ifelse(which.max(w_sc*c3) == 4,1,0)
     # which cases need to be considered
     # condition 1 for all the pools
     # which bin are available
@@ -140,7 +140,7 @@ while(i == FALSE){
 i = ifelse(sum(c3) == 0,TRUE,FALSE)}
 
 print("---Sampled values---")
-print(c(p1[[1]],p2[[1]],p3[[1]],p4[[1]]))
+print(c(p1 = p1[[1]],p2 = p2[[1]],p3 = p3[[1]], p4 = p4[[1]]))
 print("--------------------")
 
 
@@ -185,7 +185,7 @@ resample = function(x, ...) x[sample.int(length(x), ...)]
   print("----Final Samples (B) ----")
   print(samples[[2]])
   print(length(samples[[2]]))
-  print("----Repeated values between samples?) ----")
+  print("----Repeated values between samples? ----")
   print(samples[[1]] %in% samples[[2]])
 
 ################################################################################
@@ -237,16 +237,16 @@ if(doc_values[1] == 1){
   # add the ending rows
   # 8 rows with the header values + number of teacher/staff added to the file
   # +1 blank space with the end line string
-  text_end_i02 = '??? Leader Role: 1 = Leader of this ECEC setting
-  ??? Staff Role: 1 = <Only leader (no pedagogical work)>; 2 = <Teacher>; 3 = <Assistant>; 4 = <Staff for individual children>; 
-  5 = <Staff for special tasks>; 6 = <Intern>;  7 = <country-specific>; 8 = <country-specific>; 9 = <country-specific>; 10 = <country-specific>;   
-  11 = <country-specific>; 12 = <country-specific>
-    ??? Year of Birth: YYYY;  9999 = Not specified
-  ??? Gender: 1 = Female;  2 = Male; 3 = Non-binary/diverse;  9 = Refused'
+  #text_end_i02 = '??? Leader Role: 1 = Leader of this ECEC setting
+  #??? Staff Role: 1 = <Only leader (no pedagogical work)>; 2 = <Teacher>; 3 = <Assistant>; 4 = <Staff for individual children>; 
+  #5 = <Staff for special tasks>; 6 = <Intern>;  7 = <country-specific>; 8 = <country-specific>; 9 = <country-specific>; 10 = <country-specific>;   
+  #11 = <country-specific>; 12 = <country-specific>
+  #  ??? Year of Birth: YYYY;  9999 = Not specified
+  #??? Gender: 1 = Female;  2 = Male; 3 = Non-binary/diverse;  9 = Refused'
 
   df_ia_file[8 + nrow(df_a_filtered)+1,] = c("","","","","","",'<list_end>')
   # +2 the additional information
-  df_ia_file[8 + nrow(df_a_filtered)+2,] = c(text_end_i02,"","","","","","")
+  #df_ia_file[8 + nrow(df_a_filtered)+2,] = c(text_end_i02,"","","","","","")
 }else if(doc_values[1] == 0 & doc_values[2] == 1){
   # Second condition
   df_a = x[samples[[1]],]
