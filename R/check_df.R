@@ -21,7 +21,7 @@ i20v = sum(as.numeric(df[,8])) > 0
 
 # Rule 0
 # All the inscribed members need to have at least their name, birthday and gender.
-w0 = length(which(df[,1] == 0 & df[,4] == 0 & df[,5] == 0)) == 0 
+w0 = length(which(df[,1] == 0 | df[,4] == 0 | df[,5] == 0)) == 0 
 
 # Rule 1
 # Check if there is only one lider in ISCED level 02.
