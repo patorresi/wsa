@@ -19,11 +19,12 @@ allocation_weights = function(x,y){
     !(set_values[,2] %in% values) == FALSE &
     !(set_values[,3] %in% values) == FALSE &
     !(set_values[,4] == 1))
-  v_i002l<<- which(set_values[,1] == 1 & set_values[,4] == 1)
+  v_i002l <<- which(set_values[,1] == 1 & set_values[,4] == 1)
   print("--- ISCED 02 Staff ---")
   print(length(v_i002))
   print(v_i002)
-  print("--- ISCED 02 Leader (Excluded from sample) ---")
+  print("--- ISCED 02 Leader ---")
+  print(length(v_i002l))
   print(v_i002l)
   # ISCED 1 only
   v_i010 <<- which(!(set_values[,1] %in% values) == FALSE & 
@@ -139,7 +140,7 @@ while(i == FALSE){
 i = ifelse(sum(c3) == 0,TRUE,FALSE)}
 
 print("---Sampled values---")
-print(c(p1,p2,p3,p4))
+print(c(p1[[1]],p2[[1]],p3[[1]],p4[[1]]))
 print("--------------------")
 
 
@@ -195,7 +196,10 @@ doc_values = c(0,0,0)
 doc_values[1] = if(length(which(set_values[,1] == 1)) == 0){0}else{1}
 doc_values[2] = if(length(which(set_values[,2] == 1)) == 0){0}else{1}
 doc_values[3] = if(length(which(set_values[,3] == 1)) == 0){0}else{1}
-
+ia_file_name = if(doc_values[1] == 1){
+  "ISCED02"}else{"ISCED1"}
+ib_file_name = if(doc_values[3] == 1){
+  "ISCED2"}else{"ISCED1"}
 # After the algorithm work. we create three files. Two will be used by WinW3S
 # and the remainning one will be deliver to the IEA.
 # After the draft is ready, now the ouput will be assemble. 
@@ -247,7 +251,7 @@ if(doc_values[1] == 1){
   # Second condition
   df_a = x[samples[[1]],]
   i_a_header = as.data.frame(matrix(rep("",56), nrow = 8, ncol = 7))
-  text_title_i10 = 'TALIS 2024 - [ISCED Level 1&2] Teacher Listing Form'
+  text_title_i10 = 'TALIS 2024 - [ISCED Level 1] Teacher Listing Form'
   i_a_header[1,1] =  text_title_i10
   i_a_header[3:6,1] = c("TALIS Country/Region",'School Name','School ID','School Coordinator')
   i_a_header[3:6,3] = y[1:4,]
@@ -288,7 +292,7 @@ if(doc_values[3] == 1){
   # the second parte is related to the additional info in top of the listing form
   # ISCED 02 will not have the name of the school coordinator.
   # text_title_i02 = 'TALIS 2024 - Starting Strong Survey FT - [ISCED Level 02] Listing Form'
-  text_title_ib  = 'TALIS 2024 FT - [ISCED Level 1&2] Teacher Listing Form'
+  text_title_ib  = 'TALIS 2024 FT - [ISCED Level 2] Teacher Listing Form'
   isb_header[1,1] =  text_title_ib
   isb_header[3:6,1] = c("TALIS Country/Region",'School Name','School ID','School Coordinator')
   isb_header[3:6,3] = y[1:4,]
@@ -322,7 +326,7 @@ if(doc_values[3] == 1){
   # ISCED 2
   df_b = x[samples[[2]],]
   isb_header = as.data.frame(matrix(rep("",63), nrow = 9, ncol = 7))
-  text_title_ib  = 'TALIS 2024 FT - [ISCED Level 1&2] Teacher Listing Form'
+  text_title_ib  = 'TALIS 2024 FT - [ISCED Level 1] Teacher Listing Form'
   isb_header[1,1] =  text_title_ib
   isb_header[3:6,1] = c("TALIS Country/Region",'School Name','School ID','School Coordinator')
   isb_header[3:6,3] = y[1:4,]
@@ -371,10 +375,7 @@ colnames(iea_file) = c("Teacher Name",
 ################################################################################
 # Names for the files
 ################################################################################
-ia_file_name = if(doc_values[1] == 1){
-  "ISCED02"}else{"ISCED1"}
-ib_file_name = if(doc_values[3] == 1){
-  "ISCED2"}else{"ISCED1"}
+
 # file_a, file_b and iea_file
 # file a will be made in the first and can be created from an ISCED level 02 or 1.
 # I02 = 0 else I1 = 0 else empty file.
