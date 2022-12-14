@@ -255,13 +255,14 @@ if(doc_values[1] == 1){
   i_a_header[1,1] =  text_title_i10
   i_a_header[3:6,1] = c("TALIS Country/Region",'School Name','School ID','School Coordinator')
   i_a_header[3:6,3] = y[1:4,]
-  i_a_header[10,] = c('Teacher Name',
+  i_a_header[9,] = c('Teacher Name',
                   'Sequence Number',
                   'Sequence Number',
                   'Exemption',
                   'Year of Birth',
                   'Gender',
                   'Main Subject Domain at [ISCED Level 1]')
+  i_a_header[10,] = c('','','','','','','')
   # Add the filtered teachers
   # First, we need to create a empty row with the hide column
   df_a$Exemption = ""
@@ -297,13 +298,14 @@ if(doc_values[3] == 1){
   isb_header[3:6,1] = c("TALIS Country/Region",'School Name','School ID','School Coordinator')
   isb_header[3:6,3] = y[1:4,]
   # columns names in the listing form.
-  isb_header[10,] = c('Teacher Name',
+  isb_header[9,] = c('Teacher Name',
                     'Sequence Number',
                     'Sequence Number',
                     'Exemption',
                     'Year of Birth',
                     'Gender',
                     'Main Subject Domain at [ISCED Level 2]')
+  isb_header[10,] = c('','','','','','','')
   # Add the filtered teachers
   # First, we need to create a empty row with the hide column
   df_b$Exemption = ""
@@ -330,13 +332,14 @@ if(doc_values[3] == 1){
   isb_header[1,1] =  text_title_ib
   isb_header[3:6,1] = c("TALIS Country/Region",'School Name','School ID','School Coordinator')
   isb_header[3:6,3] = y[1:4,]
-  isb_header[10,] = c('Teacher Name',
+  isb_header[9,] = c('Teacher Name',
                     'Sequence Number',
                     'Sequence Number',
                     'Exemption',
                     'Year of Birth',
                     'Gender',
                     'Main Subject Domain at [ISCED Level 1]')
+  isb_header[10,] = c('','','','','','','')
   df_b$Exemption = ""
   df_b_filtered = df_b[,c(1,2,3,13,4,5,11)]
   names(df_b_filtered) = names(isb_header)
