@@ -255,7 +255,7 @@ if(doc_values[1] == 1){
   i_a_header[1,1] =  text_title_i10
   i_a_header[3:6,1] = c("TALIS Country/Region",'School Name','School ID','School Coordinator')
   i_a_header[3:6,3] = y[1:4,]
-  i_a_header[9,] = c('Teacher Name',
+  i_a_header[10,] = c('Teacher Name',
                   'Sequence Number',
                   'Sequence Number',
                   'Exemption',
@@ -297,7 +297,7 @@ if(doc_values[3] == 1){
   isb_header[3:6,1] = c("TALIS Country/Region",'School Name','School ID','School Coordinator')
   isb_header[3:6,3] = y[1:4,]
   # columns names in the listing form.
-  isb_header[9,] = c('Teacher Name',
+  isb_header[10,] = c('Teacher Name',
                     'Sequence Number',
                     'Sequence Number',
                     'Exemption',
@@ -330,7 +330,7 @@ if(doc_values[3] == 1){
   isb_header[1,1] =  text_title_ib
   isb_header[3:6,1] = c("TALIS Country/Region",'School Name','School ID','School Coordinator')
   isb_header[3:6,3] = y[1:4,]
-  isb_header[9,] = c('Teacher Name',
+  isb_header[10,] = c('Teacher Name',
                     'Sequence Number',
                     'Sequence Number',
                     'Exemption',
