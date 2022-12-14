@@ -268,7 +268,7 @@ if(doc_values[1] == 1){
   df_a_filtered = df_a[,c(1,2,3,13,4,5,11)]
   names(df_a_filtered) = names(i_a_header)
   df_ia_file = rbind(i_a_header,df_a_filtered)
-  df_ia_file[9 + nrow(df_a_filtered)+1,] = c("","","","","","",'<_list_end_>')
+  df_ia_file[10 + nrow(df_a_filtered)+1,] = c("","","","","","",'<_list_end_>')
 }else{
   # Blank file
   df_ia_file = as.data.frame(matrix(rep("",56), nrow = 8, ncol = 7))
@@ -319,7 +319,7 @@ if(doc_values[3] == 1){
   # 11 = <country-specific>; 12 = <country-specific>
   # ??? Year of Birth: YYYY;  9999 = Not specified
   # ??? Gender: 1 = Female;  2 = Male; 3 = Non-binary/diverse;  9 = Refused'
-  df_ib_file[9 + nrow(df_b_filtered)+1,] = c("","","","","","",'<_list_end_>')
+  df_ib_file[10 + nrow(df_b_filtered)+1,] = c("","","","","","",'<_list_end_>')
   # +2 the additional information
   # df_ib_file[8 + nrow(df_i2_filtered)+2,] = c(text_end_i02,"","","","","","")
 }else if(doc_values[3] == 0 & doc_values[2] == 1){
@@ -341,7 +341,7 @@ if(doc_values[3] == 1){
   df_b_filtered = df_b[,c(1,2,3,13,4,5,11)]
   names(df_b_filtered) = names(isb_header)
   df_ib_file = rbind(isb_header,df_b_filtered)
-  df_ib_file[9 + nrow(df_b_filtered)+1,] = c("","","","","","",'<_list_end_>')
+  df_ib_file[10 + nrow(df_b_filtered)+1,] = c("","","","","","",'<_list_end_>')
 }else{
   df_ib_file = as.data.frame(matrix(rep("",63), nrow = 9, ncol = 7))
 }
