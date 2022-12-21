@@ -11,7 +11,7 @@
 allocation_weights = function(x,y){
 {
   set.seed(as.numeric(y[3,]))
-  set_values = as.data.frame(apply(x[,c(6,7,8,9)],2,function(x){as.numeric(x)}))
+  set_values = x[,c(6,7,8,9)]
   values = c(0)
   # Set the samples --------------------------------
   # We remove from the selecting process the leader from the ISCED level 2.
@@ -103,6 +103,7 @@ allocation_weights = function(x,y){
 }
 
 # Sample algorithm
+if(sum(sw_sc) != 0){
 i = 0
 while(i == FALSE){
     # sampled cases
@@ -138,6 +139,7 @@ while(i == FALSE){
            ifelse(c1[4] == TRUE | c2[4] == TRUE,0,1))
     sw_sc = w_sc*c3
 i = ifelse(sum(c3) == 0,TRUE,FALSE)}
+}
 
 print("---Sampled values---")
 print(c(p1 = p1[[1]],p2 = p2[[1]],p3 = p3[[1]], p4 = p4[[1]]))
@@ -204,7 +206,7 @@ ib_file_name = if(doc_values[3] == 1){
 # and the remainning one will be deliver to the IEA.
 # After the draft is ready, now the ouput will be assemble. 
 
-if(doc_values[1] == 1){
+if(doc_values[1] == 1 & length(samples[[1]]) > 0){
   # First we select the sample selected in the previous step.
   df_a = x[samples[[1]],]
 
@@ -247,7 +249,7 @@ if(doc_values[1] == 1){
   df_ia_file[8 + nrow(df_a_filtered)+1,] = c("","","","","","",'<_list_end_>')
   # +2 the additional information
   #df_ia_file[8 + nrow(df_a_filtered)+2,] = c(text_end_i02,"","","","","","")
-}else if(doc_values[1] == 0 & doc_values[2] == 1){
+}else if(doc_values[1] == 0 & doc_values[2] == 1 & length(samples[[1]]) > 0){
   # Second condition
   df_a = x[samples[[1]],]
   i_a_header = as.data.frame(matrix(rep("",56), nrow = 8, ncol = 7))
@@ -278,7 +280,7 @@ if(doc_values[1] == 1){
 # Create output file for ISCED level 1 or ISCED level 2
 ################################################################################
 
-if(doc_values[3] == 1){
+if(doc_values[3] == 1 & length(samples[[2]]) > 0){
   # After the algorithm work. we create three files. Two will be used by WinW3S
   # and the remainning one will be deliver to the IEA.
   # After the draft is ready, now the ouput will be assemble. 
@@ -322,7 +324,7 @@ if(doc_values[3] == 1){
   df_ib_file[10 + nrow(df_b_filtered)+1,] = c("","","","","","",'<_list_end_>')
   # +2 the additional information
   # df_ib_file[8 + nrow(df_i2_filtered)+2,] = c(text_end_i02,"","","","","","")
-}else if(doc_values[3] == 0 & doc_values[2] == 1){
+}else if(doc_values[3] == 0 & doc_values[2] == 1 & length(samples[[2]]) > 0){
   # ISCED 2
   df_b = x[samples[[2]],]
   isb_header = as.data.frame(matrix(rep("",63), nrow = 9, ncol = 7))

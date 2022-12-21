@@ -10,7 +10,7 @@
 
 fill_df = function(x){
 # now I have only 0 values.
-clean_df = as.data.frame(apply(x,2,FUN=function(x){ifelse(is.na(x)==TRUE,0,x)}))
+clean_df = as.data.frame(rbind(apply(x,2,FUN=function(x){ifelse(is.na(x)==TRUE,0,x)})))
 clean_df[,2:12] = sapply(clean_df[,2:12],as.numeric)
 clean_df[,4]  = ifelse(nchar(clean_df[,4]) == 4,clean_df[,4],0)
 clean_df[,5]  = ifelse(clean_df[,5] %in% c(1,2,3,9),clean_df[,5],0)

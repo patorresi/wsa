@@ -13,7 +13,7 @@ single_case = function(x,y){
 ################################################################################
 # Create output file for first file (ISCED 02 or ISCED 1)
 ################################################################################
-set_values = as.data.frame(apply(x[,c(6,7,8,9)],2,function(x){as.numeric(x)}))
+set_values = x[,c(6,7,8,9)]
 doc_values = c(0,0,0)
 doc_values[1] = if(length(which(set_values[,1] == 1)) == 0){0}else{1}
 doc_values[2] = if(length(which(set_values[,2] == 1)) == 0){0}else{1}
