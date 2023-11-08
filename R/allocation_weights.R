@@ -235,6 +235,7 @@ if(doc_values[1] == 1 & length(samples[[1]]) > 0){
                     'Gender')
   # reorganize the order of the columns.
   df_a$Exemption = ""
+  df_a[,9] = ifelse(df_a[,9] == 1,1,"") 
   df_a_filtered = df_a[,c(1,2,3,13,9,10,4,5)]
   names(df_a_filtered) = names(i_a_header)[1:8]
   df_ia_file = rbind(i_a_header,df_a_filtered)
