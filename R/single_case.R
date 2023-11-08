@@ -36,10 +36,10 @@ if(all(doc_values==c(1,0,0))){
   # The listing form from ISCED 02 and ISCED 1&2 Have the same number of columns
   # but different number of rows (School coordinator require another row in the 
   # info section)
-  i_a_header = as.data.frame(matrix(rep("",56), nrow = 8, ncol = 7))
+  i_a_header = as.data.frame(matrix(rep("",64), nrow = 8, ncol = 8))
   # (3) I add the information on the top of the listing form. 
   # ISCED 02 does not have the name of the school coordinator.
-  text_title_i02 = 'TALIS 2024 - Starting Strong Survey MS - [ISCED Level 02] Listing Form'
+  text_title_i02 = 'TALIS Starting Strong 2024 MS  - [ISCED Level 02] Listing Form'
   i_a_header[1,1] =  text_title_i02
   i_a_header[3:5,1] = c("Country/Region",'ECEC Setting Name','ECEC Setting ID')
   i_a_header[3:5,3] = y[1:3,]
@@ -47,13 +47,15 @@ if(all(doc_values==c(1,0,0))){
   i_a_header[8,] = c('Name',
                     'Sequence Number',
                     'Sequence Number',
+                    'Exemption',                  
                     'Leader Role',
                     'Staff Role',
                     'Year of Birth',
                     'Gender')
   # (4) Reorganize the order of the columns.
-  df_a_filtered = df_a[,c(1,2,3,9,10,4,5)]
-  names(df_a_filtered) = names(i_a_header)[1:7]
+  df_a$Exemption = ""
+  df_a_filtered = df_a[,c(1,2,3,13,9,10,4,5)]
+  names(df_a_filtered) = names(i_a_header)[1:8]
   df_ia_file = rbind(i_a_header,df_a_filtered)
   # (5) The remaining point is to add the last row containing the code list_end.
   # I counted 8 rows (header values) + number of teacher/staff added to the file
@@ -86,7 +88,7 @@ if(all(doc_values==c(1,0,0))){
   df_a_filtered = df_a[,c(1,2,3,13,4,5,11)]
   names(df_a_filtered) = names(i_a_header)
   df_ia_file = rbind(i_a_header,df_a_filtered)
-  df_ia_file[9 + nrow(df_a_filtered)+1,] = c("","","","","","",'<list_end>')
+  df_ia_file[9 + nrow(df_a_filtered)+1,] = c("","","","","","","",'<list_end>')
 
 # Third case ISCED 2
 

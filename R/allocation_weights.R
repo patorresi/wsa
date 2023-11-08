@@ -215,11 +215,11 @@ if(doc_values[1] == 1 & length(samples[[1]]) > 0){
   # The listing form from ISCED 02 and ISCED 1&2 Have the same number of columns
   # but different number of rows (School coordinator require another row in the 
   # info section)
-  i_a_header = as.data.frame(matrix(rep("",56), nrow = 8, ncol = 7))
+  i_a_header = as.data.frame(matrix(rep("",64), nrow = 8, ncol = 8))
   # the second parte is related to the additional info in top of the listing form
   # ISCED 02 will not have the name of the school coordinator.
   # text_title_i02 = 'TALIS 2024 - Starting Strong Survey FT - [ISCED Level 02] Listing Form'
-  text_title_i02 = 'TALIS 2024 - Starting Strong Survey MS - [ISCED Level 02] Listing Form'
+  text_title_i02 = 'TALIS Starting Strong 2024 MS  - [ISCED Level 02] Listing Form'
 
   i_a_header[1,1] =  text_title_i02
   i_a_header[3:5,1] = c("Country/Region",'ECEC Setting Name','ECEC Setting ID')
@@ -228,13 +228,15 @@ if(doc_values[1] == 1 & length(samples[[1]]) > 0){
   i_a_header[8,] = c('Name',
                     'Sequence Number',
                     'Sequence Number',
+                    'Exemption', 
                     'Leader Role',
                     'Staff Role',
                     'Year of Birth',
                     'Gender')
   # reorganize the order of the columns.
-  df_a_filtered = df_a[,c(1,2,3,9,10,4,5)]
-  names(df_a_filtered) = names(i_a_header)[1:7]
+  df_a$Exemption = ""
+  df_a_filtered = df_a[,c(1,2,3,13,9,10,4,5)]
+  names(df_a_filtered) = names(i_a_header)[1:8]
   df_ia_file = rbind(i_a_header,df_a_filtered)
   # add the ending rows
   # 8 rows with the header values + number of teacher/staff added to the file
@@ -246,7 +248,7 @@ if(doc_values[1] == 1 & length(samples[[1]]) > 0){
   #  ??? Year of Birth: YYYY;  9999 = Not specified
   #??? Gender: 1 = Female;  2 = Male; 3 = Non-binary/diverse;  9 = Refused'
 
-  df_ia_file[8 + nrow(df_a_filtered)+1,] = c("","","","","","",'<_list_end_>')
+  df_ia_file[8 + nrow(df_a_filtered)+1,] = c("","","","","","","",'<_list_end_>')
   # +2 the additional information
   #df_ia_file[8 + nrow(df_a_filtered)+2,] = c(text_end_i02,"","","","","","")
 }else if(doc_values[1] == 0 & doc_values[2] == 1 & length(samples[[1]]) > 0){
