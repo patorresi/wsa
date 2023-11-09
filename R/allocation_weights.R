@@ -362,6 +362,11 @@ if(doc_values[3] == 1 & length(samples[[2]]) > 0){
 
 iea_file = x
 iea_file[,1] = "ID"
+iea_file$dist = 0
+iea_file$dist[c(sample1)] = 1
+iea_file$dist[c(sample2)] = 2
+iea_file$dist[c(sample3)] = 3
+iea_file$dist[c(sample4)] = 4
 colnames(iea_file) = c("Teacher Name",
 "Sequence Number",
 "Sequence Number",
@@ -373,12 +378,8 @@ colnames(iea_file) = c("Teacher Name",
 "Leader Role [ISCED level 02]",
 "Staff Role [ISCED level 02]",
 "Main Subject Domain at [ISCED Level 1]",
-"Main Subject Domain at [ISCED Level 2]")
-iea_file$dist = 0
-iea_file$dist[c(sample1)] = 1
-iea_file$dist[c(sample2)] = 2
-iea_file$dist[c(sample3)] = 3
-iea_file$dist[c(sample4)] = 4
+"Main Subject Domain at [ISCED Level 2]",
+"sample_allocation")
 }
 
 
