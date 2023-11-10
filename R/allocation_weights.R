@@ -225,7 +225,8 @@ if(doc_values[1] == 1 & length(samples[[1]]) > 0){
   i_a_header[3:5,1] = c("Country/Region",'ECEC Setting Name','ECEC Setting ID')
   i_a_header[3:5,3] = y[1:3,]
   # columns names in the listing form.
-  i_a_header[8,] = c('Name',
+  i_a_header[9,]  = ""
+  i_a_header[10,] = c('Name',
                     'Sequence Number',
                     'Sequence Number',
                     'Exemption', 
