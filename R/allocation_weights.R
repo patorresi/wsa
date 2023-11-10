@@ -225,8 +225,7 @@ if(doc_values[1] == 1 & length(samples[[1]]) > 0){
   i_a_header[3:5,1] = c("Country/Region",'ECEC Setting Name','ECEC Setting ID')
   i_a_header[3:5,3] = y[1:3,]
   # columns names in the listing form.
-  i_a_header[9,]  = ""
-  i_a_header[10,] = c('Name',
+  i_a_header[9,] = c('Name',
                     'Sequence Number',
                     'Sequence Number',
                     'Exemption', 
@@ -250,7 +249,7 @@ if(doc_values[1] == 1 & length(samples[[1]]) > 0){
   #  ??? Year of Birth: YYYY;  9999 = Not specified
   #??? Gender: 1 = Female;  2 = Male; 3 = Non-binary/diverse;  9 = Refused'
 
-  df_ia_file[8 + nrow(df_a_filtered)+1,] = c("","","","","","","",'<_list_end_>')
+  df_ia_file[9 + nrow(df_a_filtered)+1,] = c("","","","","","","",'<_list_end_>')
   # +2 the additional information
   #df_ia_file[8 + nrow(df_a_filtered)+2,] = c(text_end_i02,"","","","","","")
 }else if(doc_values[1] == 0 & doc_values[2] == 1 & length(samples[[1]]) > 0){
