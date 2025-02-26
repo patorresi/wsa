@@ -219,7 +219,7 @@ if(doc_values[1] == 1 & length(samples[[1]]) > 0){
   # the second parte is related to the additional info in top of the listing form
   # ISCED 02 will not have the name of the school coordinator.
   # text_title_i02 = 'TALIS 2024 - Starting Strong Survey FT - [ISCED Level 02] Listing Form'
-  text_title_i02 = 'TALIS Starting Strong 2024 MS  - [ISCED Level 02] Listing Form'
+  text_title_i02 = 'TALIS+ Starting Strong FT  - [ISCED Level 02] Listing Form'
 
   i_a_header[1,1] =  text_title_i02
   i_a_header[3:5,1] = c("Country/Region",'ECEC Setting Name','ECEC Setting ID')
@@ -238,7 +238,7 @@ if(doc_values[1] == 1 & length(samples[[1]]) > 0){
   df_a[,9] = ifelse(df_a[,9] == 1,1,"") 
   df_a_filtered = df_a[,c(1,2,3,13,9,10,4,5)]
   names(df_a_filtered) = names(i_a_header)[1:8]
-  df_ia_file = rbind(i_a_header,df_a_filtered)
+  df_ia_file = rbind(i_a_header,df_a_filtered) 
   # add the ending rows
   # 8 rows with the header values + number of teacher/staff added to the file
   # +1 blank space with the end line string
@@ -249,14 +249,17 @@ if(doc_values[1] == 1 & length(samples[[1]]) > 0){
   #  ??? Year of Birth: YYYY;  9999 = Not specified
   #??? Gender: 1 = Female;  2 = Male; 3 = Non-binary/diverse;  9 = Refused'
 
-  df_ia_file[9 + nrow(df_a_filtered)+1,] = c("","","","","","","",'<_list_end_>')
+  # RL: No need to include the end_list, and a row to include in between
+  # df_ia_file[9 + nrow(df_a_filtered)+1,] = c("","","","","","","",'<_list_end_>')
+  df_ia_file <- rbind( df_ia_file[1:10,], c("","","","","","",""),  df_ia_file[11:nrow(df_ia_file),])
+  
   # +2 the additional information
   #df_ia_file[8 + nrow(df_a_filtered)+2,] = c(text_end_i02,"","","","","","")
 }else if(doc_values[1] == 0 & doc_values[2] == 1 & length(samples[[1]]) > 0){
   # Second condition
   df_a = x[samples[[1]],]
   i_a_header = as.data.frame(matrix(rep("",56), nrow = 8, ncol = 7))
-  text_title_i10 = 'TALIS 2024 MS - [ISCED Level 1] Teacher Listing Form'
+  text_title_i10 = 'TALIS+ FT - [ISCED Level 1] Teacher Listing Form'
   i_a_header[1,1] =  text_title_i10
   i_a_header[3:6,1] = c("TALIS Country/Region",'School Name','School ID','School Coordinator')
   i_a_header[3:6,3] = y[1:4,]
@@ -273,8 +276,12 @@ if(doc_values[1] == 1 & length(samples[[1]]) > 0){
   df_a_filtered = df_a[,c(1,2,3,13,4,5,11)]
   names(df_a_filtered) = names(i_a_header)
   df_ia_file = rbind(i_a_header,df_a_filtered)
-  df_ia_file[10 + nrow(df_a_filtered)+1,] = c("","","","","","",'<_list_end_>')
-}else{
+  
+  # RL: No need to include the end_list, and a row to include in between
+  # df_ia_file[10 + nrow(df_a_filtered)+1,] = c("","","","","","",'<_list_end_>')
+  df_ia_file <- rbind( df_ia_file[1:10,], c("","","","","","",""),  df_ia_file[11:nrow(df_ia_file),])
+  
+  }else{
   # Blank file
   df_ia_file = as.data.frame(matrix(rep("",56), nrow = 8, ncol = 7))
 }
@@ -297,7 +304,7 @@ if(doc_values[3] == 1 & length(samples[[2]]) > 0){
   # the second parte is related to the additional info in top of the listing form
   # ISCED 02 will not have the name of the school coordinator.
   # text_title_i02 = 'TALIS 2024 - Starting Strong Survey FT - [ISCED Level 02] Listing Form'
-  text_title_ib  = 'TALIS 2024 MS - [ISCED Level 2] Teacher Listing Form'
+  text_title_ib  = 'TALIS+ FT - [ISCED Level 2] Teacher Listing Form'
   isb_header[1,1] =  text_title_ib
   isb_header[3:6,1] = c("TALIS Country/Region",'School Name','School ID','School Coordinator')
   isb_header[3:6,3] = y[1:4,]
@@ -324,14 +331,18 @@ if(doc_values[3] == 1 & length(samples[[2]]) > 0){
   # 11 = <country-specific>; 12 = <country-specific>
   # ??? Year of Birth: YYYY;  9999 = Not specified
   # ??? Gender: 1 = Female;  2 = Male; 3 = Non-binary/diverse;  9 = Refused'
-  df_ib_file[10 + nrow(df_b_filtered)+1,] = c("","","","","","",'<_list_end_>')
+  
+  # RL: No need to include the end_list, and a row to include in between
+  # df_ib_file[10 + nrow(df_b_filtered)+1,] = c("","","","","","",'<_list_end_>')
+  df_ib_file <- rbind( df_ib_file[1:10,], c("","","","","","",""),  df_ib_file[11:nrow(df_ib_file),])
+  
   # +2 the additional information
   # df_ib_file[8 + nrow(df_i2_filtered)+2,] = c(text_end_i02,"","","","","","")
 }else if(doc_values[3] == 0 & doc_values[2] == 1 & length(samples[[2]]) > 0){
   # ISCED 2
   df_b = x[samples[[2]],]
   isb_header = as.data.frame(matrix(rep("",63), nrow = 9, ncol = 7))
-  text_title_ib  = 'TALIS 2024 MS - [ISCED Level 1] Teacher Listing Form'
+  text_title_ib  = 'TALIS+ FT - [ISCED Level 1] Teacher Listing Form'
   isb_header[1,1] =  text_title_ib
   isb_header[3:6,1] = c("TALIS Country/Region",'School Name','School ID','School Coordinator')
   isb_header[3:6,3] = y[1:4,]
@@ -346,7 +357,12 @@ if(doc_values[3] == 1 & length(samples[[2]]) > 0){
   df_b_filtered = df_b[,c(1,2,3,13,4,5,11)]
   names(df_b_filtered) = names(isb_header)
   df_ib_file = rbind(isb_header,df_b_filtered)
-  df_ib_file[10 + nrow(df_b_filtered)+1,] = c("","","","","","",'<_list_end_>')
+  
+  # RL: No need to include the end_list, and a row to include in between
+  # df_ib_file[10 + nrow(df_b_filtered)+1,] = c("","","","","","",'<_list_end_>')
+  df_ib_file <- rbind( df_ib_file[1:10,], c("","","","","","",""),  df_ib_file[11:nrow(df_ib_file),])
+  
+  
 }else{
   df_ib_file = as.data.frame(matrix(rep("",63), nrow = 9, ncol = 7))
 }
