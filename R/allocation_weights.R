@@ -70,7 +70,7 @@ allocation_weights = function(x,y){
   v3 <<- ifelse(length(v_i020) == 0 & length(v_i120) == 0,length(v_i010),length(v_i020))
   # these values are relevant in the first case.
   rs_1 <<- ifelse(length(v_i002) == 0,20,8)
-  rs_2 <<- 20
+  rs_2 <<- 22
   # set the bins with one case each one.
   # p = c(p1=1,p2=1,p3=1,p4=1)
   random_p = sample(c(0,1),2,replace=FALSE)
