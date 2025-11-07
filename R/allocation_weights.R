@@ -259,7 +259,7 @@ if(doc_values[1] == 1 & length(samples[[1]]) > 0){
   # Second condition
   df_a = x[samples[[1]],]
   i_a_header = as.data.frame(matrix(rep("",56), nrow = 8, ncol = 7))
-  text_title_i10 = 'TALIS+ FT - [ISCED Level 1] Teacher Listing Form'
+  text_title_i10 = 'TALIS+ MS - [ISCED Level 1] Teacher Listing Form'
   i_a_header[1,1] =  text_title_i10
   i_a_header[3:6,1] = c("TALIS Country/Region",'School Name','School ID','School Coordinator')
   i_a_header[3:6,3] = y[1:4,]
@@ -304,7 +304,7 @@ if(doc_values[3] == 1 & length(samples[[2]]) > 0){
   # the second parte is related to the additional info in top of the listing form
   # ISCED 02 will not have the name of the school coordinator.
   # text_title_i02 = 'TALIS 2024 - Starting Strong Survey FT - [ISCED Level 02] Listing Form'
-  text_title_ib  = 'TALIS+ FT - [ISCED Level 2] Teacher Listing Form'
+  text_title_ib  = 'TALIS+ MS - [ISCED Level 2] Teacher Listing Form'
   isb_header[1,1] =  text_title_ib
   isb_header[3:6,1] = c("TALIS Country/Region",'School Name','School ID','School Coordinator')
   isb_header[3:6,3] = y[1:4,]
@@ -342,7 +342,7 @@ if(doc_values[3] == 1 & length(samples[[2]]) > 0){
   # ISCED 2
   df_b = x[samples[[2]],]
   isb_header = as.data.frame(matrix(rep("",63), nrow = 9, ncol = 7))
-  text_title_ib  = 'TALIS+ FT - [ISCED Level 1] Teacher Listing Form'
+  text_title_ib  = 'TALIS+ MS - [ISCED Level 1] Teacher Listing Form'
   isb_header[1,1] =  text_title_ib
   isb_header[3:6,1] = c("TALIS Country/Region",'School Name','School ID','School Coordinator')
   isb_header[3:6,3] = y[1:4,]
