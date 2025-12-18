@@ -25,11 +25,13 @@ w0 = length(which(df[,1] == 0 | df[,4] == 0 | df[,5] == 0)) == 0
 
 # Rule 1
 # Check if there is only one lider in ISCED level 02.
-w1 = if(i02v == TRUE){
-  sum(as.numeric(df[,9])) == 1
-}else{
-  sum(as.numeric(df[,9])) == 0
-}
+# Currently this row name has been changed to exemption so this column can have
+# multiple number 1
+# w1 = if(i02v == TRUE){
+#   sum(as.numeric(df[,9])) == 1
+# }else{
+#   sum(as.numeric(df[,9])) == 0
+# }
 
 # Function to check valid values.
 # if x is a valid teacher (1) their domain need to be in a specific range of valid
@@ -70,7 +72,7 @@ w4 = sum(mapply(fun1,df[,8],df[,12])) == nrow(df)
 w5 = sum(apply(df[,c(6,7,8)],1,FUN=function(x){sum(as.numeric(x))}) > 0 &
 apply(df[,c(6,7,8)],1,FUN=function(x){sum(as.numeric(x))}) < 3) == nrow(df)
  
-value = (sum(c(w0,w1,w2,w3,w4,w5)) == length(c(w0,w1,w2,w3,w4,w5)))
+value = (sum(c(w0,w2,w3,w4,w5)) == length(c(w0,w2,w3,w4,w5)))
 
 # print("You should revise the list form. Some of the rows may not contain all the necesary fields completed.")
 # print("Ready to go!")
