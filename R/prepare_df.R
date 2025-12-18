@@ -13,7 +13,8 @@ prepare_df = function(x){
 	db_pi = which(x[,1] == '<_fld_teacher_name_>' | x[,12] == "<_list_end_>" | x[,5] == "X" )
 	db_co = nrow(x)
 	db_er = which(rowSums(is.na(x)) == ncol(x))
-	row_rm = c(db_pi,db_co,db_er)
+	db_lb = 1:9
+	row_rm = c(db_pi,db_co,union(db_er,db_lb))
 	df = x[!1:dim(x)[1] %in% row_rm,]
 	df
 }
