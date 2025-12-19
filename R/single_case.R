@@ -13,6 +13,7 @@ single_case = function(x,y){
 # forms contain teachers from only one ISCED level. 
 # First, I evaluate which ISCED level the listing form possesses.
 doc_values = c(0,0,0)
+set_values = x[,c(6,7,8,9)]
 doc_values[1] = if(length(which(set_values[,1] == 1)) == 0){0}else{1}
 doc_values[2] = if(length(which(set_values[,2] == 1)) == 0){0}else{1}
 doc_values[3] = if(length(which(set_values[,3] == 1)) == 0){0}else{1}
