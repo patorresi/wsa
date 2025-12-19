@@ -2,6 +2,7 @@
 #'
 #' This function retrieves the allocation and set the samples.
 #' @param x The data frame gathered will utilized the uploaded data frame.
+#'        y Has the information from the Teacher Listing
 #' @keywords allocation
 #' @export
 #' @examples
@@ -31,17 +32,25 @@ allocation_weights = function(x,y){
     !(set_values[,2] %in% values) == TRUE &
     !(set_values[,3] %in% values) == FALSE |
     (set_values[,1] == 1 & set_values[,2] == 1 & set_values[,4] == 1))
+  v_i010l <<- which(set_values[,2] == 1 & set_values[,4] == 1)
   print("--- ISCED 1 Teacher ---")
   print(length(v_i010))
   print(v_i010)
+  print("--- ISCED 1 Exemption ---")
+  print(length(v_i010l))
+  print(v_i010l)  
   # ISCED 2 only 
   v_i020 <<- which(!(set_values[,1] %in% values) == FALSE & 
     !(set_values[,2] %in% values) == FALSE &
     !(set_values[,3] %in% values) == TRUE |
     (set_values[,1] == 1 & set_values[,3] == 1 & set_values[,4] == 1))
+  v_i020l <<- which(set_values[,3] == 1 & set_values[,4] == 1)
   print("--- ISCED 2 Teacher ---")
   print(length(v_i020))
   print(v_i020)
+  print("--- ISCED 2 Exemption ---")
+  print(length(v_i020l))
+  print(v_i020l) 
   # ISCED 02 & 1 
   v_i102 <<- which(!(set_values[,1] %in% values) == TRUE & 
     !(set_values[,2] %in% values) == TRUE &
@@ -53,7 +62,9 @@ allocation_weights = function(x,y){
   # ISCED 1 & 2
   v_i120 <<- which(!(set_values[,1] %in% values) == FALSE & 
     !(set_values[,2] %in% values) == TRUE &
-    !(set_values[,3] %in% values) == TRUE)
+    !(set_values[,3] %in% values) == TRUE &
+    !(set_values[,4] == 1))
+    )
   print("--- ISCED 1&2 Teacher ---")
   print(length(v_i120))
   print(v_i120)
@@ -65,6 +76,7 @@ allocation_weights = function(x,y){
   print("--- ISCED 02&2 Teacher ---")
   print(length(v_i202))
   print(v_i202)
+  exe <<- union(v_i010l,v_i020l)
   v1 <<- ifelse(length(v_i002) == 0 & length(v_i102) == 0,length(v_i010),length(v_i002))
   v2 <<- ifelse(length(v_i102) != 0,length(v_i102),ifelse(length(v_i120) == 0,length(v_i202),length(v_i120)))
   v3 <<- ifelse(length(v_i020) == 0 & length(v_i120) == 0,length(v_i010),length(v_i020))
@@ -258,7 +270,7 @@ if(doc_values[1] == 1 & length(samples[[1]]) > 0){
 }else if(doc_values[1] == 0 & doc_values[2] == 1 & length(samples[[1]]) > 0){
   # Second condition
   df_a = x[samples[[1]],]
-  i_a_header = as.data.frame(matrix(rep("",56), nrow = 8, ncol = 7))
+  i_a_header = as.data.frame(matrix(rep("",90), nrow = 10, ncol = 9))
   text_title_i10 = 'TALIS+ MS - [ISCED Level 1] Teacher Listing Form'
   i_a_header[1,1] =  text_title_i10
   i_a_header[3:6,1] = c("TALIS Country/Region",'School Name','School ID','School Coordinator')
@@ -269,21 +281,25 @@ if(doc_values[1] == 1 & length(samples[[1]]) > 0){
                   'Exemption',
                   'Year of Birth',
                   'Gender',
-                  'Main Subject Domain at [ISCED Level 1]')
+                  'Main Subject Domain at [ISCED Level 1]',
+                  'Generic Text',
+                  'Generic Number')
   # Add the filtered teachers
   # First, we need to create a empty row with the hide column
   df_a$Exemption = ""
   df_a_filtered = df_a[,c(1,2,3,13,4,5,11)]
+  df_a_filtered$gtext = ""
+  df_a_filtered$gnum = ""
   names(df_a_filtered) = names(i_a_header)
   df_ia_file = rbind(i_a_header,df_a_filtered)
   
   # RL: No need to include the end_list, and a row to include in between
   # df_ia_file[10 + nrow(df_a_filtered)+1,] = c("","","","","","",'<_list_end_>')
-  df_ia_file <- rbind( df_ia_file[1:10,], c("","","","","","",""),  df_ia_file[11:nrow(df_ia_file),])
+  df_ia_file <- rbind( df_ia_file[1:10,], c("","","","","","","","",""),  df_ia_file[11:nrow(df_ia_file),])
   
   }else{
   # Blank file
-  df_ia_file = as.data.frame(matrix(rep("",56), nrow = 8, ncol = 7))
+  df_ia_file = as.data.frame(matrix(rep("",90), nrow = 10, ncol = 9))
 }
 
 ################################################################################
@@ -299,7 +315,7 @@ if(doc_values[3] == 1 & length(samples[[2]]) > 0){
   # listing form. 
   # As was mentioned before, this one has 9 row because additional to the things
   # added for the ISCED 02 version, ISCED 1&2 have a school coordinator added.
-  isb_header = as.data.frame(matrix(rep("",63), nrow = 9, ncol = 7))
+  isb_header = as.data.frame(matrix(rep("",90), nrow = 10, ncol = 9))
 
   # the second parte is related to the additional info in top of the listing form
   # ISCED 02 will not have the name of the school coordinator.
@@ -315,11 +331,15 @@ if(doc_values[3] == 1 & length(samples[[2]]) > 0){
                     'Exemption',
                     'Year of Birth',
                     'Gender',
-                    'Main Subject Domain at [ISCED Level 2]')
+                    'Main Subject Domain at [ISCED Level 2]',
+                    'Generic Text',
+                    'Generic Number')
   # Add the filtered teachers
   # First, we need to create a empty row with the hide column
   df_b$Exemption = ""
   df_b_filtered = df_b[,c(1,2,3,13,4,5,12)]
+  df_b_filtered$gtext = ""
+  df_b_filtered$gnum = ""
   names(df_b_filtered) = names(isb_header)
   df_ib_file = rbind(isb_header,df_b_filtered)
   # add the ending rows
@@ -334,14 +354,14 @@ if(doc_values[3] == 1 & length(samples[[2]]) > 0){
   
   # RL: No need to include the end_list, and a row to include in between
   # df_ib_file[10 + nrow(df_b_filtered)+1,] = c("","","","","","",'<_list_end_>')
-  df_ib_file <- rbind( df_ib_file[1:10,], c("","","","","","",""),  df_ib_file[11:nrow(df_ib_file),])
+  # df_ib_file <- rbind( df_ib_file[1:10,], c("","","","","","",""),  df_ib_file[11:nrow(df_ib_file),])
   
   # +2 the additional information
   # df_ib_file[8 + nrow(df_i2_filtered)+2,] = c(text_end_i02,"","","","","","")
 }else if(doc_values[3] == 0 & doc_values[2] == 1 & length(samples[[2]]) > 0){
-  # ISCED 2
+  # ISCED 1
   df_b = x[samples[[2]],]
-  isb_header = as.data.frame(matrix(rep("",63), nrow = 9, ncol = 7))
+  isb_header = as.data.frame(matrix(rep("",90), nrow = 10, ncol = 9))
   text_title_ib  = 'TALIS+ MS - [ISCED Level 1] Teacher Listing Form'
   isb_header[1,1] =  text_title_ib
   isb_header[3:6,1] = c("TALIS Country/Region",'School Name','School ID','School Coordinator')
@@ -352,19 +372,23 @@ if(doc_values[3] == 1 & length(samples[[2]]) > 0){
                     'Exemption',
                     'Year of Birth',
                     'Gender',
-                    'Main Subject Domain at [ISCED Level 1]')
+                    'Main Subject Domain at [ISCED Level 1]',
+                    'Generic Text',
+                    'Generic Number')
   df_b$Exemption = ""
   df_b_filtered = df_b[,c(1,2,3,13,4,5,11)]
+  df_b_filtered$gtext = ""
+  df_b_filtered$gnum = ""
   names(df_b_filtered) = names(isb_header)
   df_ib_file = rbind(isb_header,df_b_filtered)
   
   # RL: No need to include the end_list, and a row to include in between
   # df_ib_file[10 + nrow(df_b_filtered)+1,] = c("","","","","","",'<_list_end_>')
-  df_ib_file <- rbind( df_ib_file[1:10,], c("","","","","","",""),  df_ib_file[11:nrow(df_ib_file),])
-  
+  df_ib_file <- rbind( df_ib_file[1:10,], c("","","","","","","","",""),  df_ib_file[11:nrow(df_ib_file),])
+
   
 }else{
-  df_ib_file = as.data.frame(matrix(rep("",63), nrow = 9, ncol = 7))
+  df_ib_file = as.data.frame(matrix(rep("",90), nrow = 10, ncol = 9))
 }
 
 ################################################################################
@@ -375,6 +399,7 @@ if(doc_values[3] == 1 & length(samples[[2]]) > 0){
 # After the algorithm work. we create three files. Two will be used by WinW3S
 # and the remainning one will be deliver to the IEA.
 # After the draft is ready, now the ouput will be assemble. 
+
 
 iea_file = x
 iea_file[,1] = "ID"
@@ -391,7 +416,7 @@ colnames(iea_file) = c("Teacher Name",
 "[ISCED level 02]",
 "[ISCED level 1]",
 "[ISCED level 2]",
-"Leader Role [ISCED level 02]",
+"Exemption",
 "Staff Role [ISCED level 02]",
 "Main Subject Domain at [ISCED Level 1]",
 "Main Subject Domain at [ISCED Level 2]",
