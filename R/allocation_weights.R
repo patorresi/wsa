@@ -64,7 +64,6 @@ allocation_weights = function(x,y){
     !(set_values[,2] %in% values) == TRUE &
     !(set_values[,3] %in% values) == TRUE &
     !(set_values[,4] == 1))
-    )
   print("--- ISCED 1&2 Teacher ---")
   print(length(v_i120))
   print(v_i120)
