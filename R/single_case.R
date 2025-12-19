@@ -90,6 +90,7 @@ if(all(doc_values==c(1,0,0))){
   # (7) I create the column Exemption. This variable was used in the previous
   # TALIS cycle and was not deleted from the listing form template.
   # (8) Add the filtered teachers
+  df_a$Exemption = ifelse(x[,9] == 0,'',x[,9])
   df_a_filtered = df_a[,c(1,2,3,9,4,5,11)]
   df_a_filtered$gtext = ""
   df_a_filtered$gnum = ""  
@@ -120,7 +121,7 @@ if(doc_values[3] == 1){
   # ISCED 1 and 2 require the name of the school coordinator at the beginning.
   i_a_header = as.data.frame(matrix(rep("",90), nrow = 10, ncol = 9))
   text_title_i20  = 'TALIS 2024 MS - [ISCED Level 2] Teacher Listing Form'
-  i_a_header[1,1] =  text_title_ib
+  i_a_header[1,1] =  text_title_i20
   i_a_header[3:6,1] = c("TALIS Country/Region",'School Name','School ID','School Coordinator')
   i_a_header[3:6,3] = y[1:4,]
   i_a_header[10,] = c('Teacher Name',
@@ -134,7 +135,7 @@ if(doc_values[3] == 1){
                     'Generic Number')
   # Add the filtered teachers
   # First, we need to create a empty row with the hide column
-  df_a$Exemption = x[,9]
+  df_a$Exemption = ifelse(x[,9] == 0,'',x[,9])
   df_a_filtered = df_a[,c(1,2,3,13,4,5,11)]
   df_a_filtered$gtext = ""
   df_a_filtered$gnum = ""  
@@ -149,31 +150,35 @@ if(doc_values[3] == 1){
   # 11 = <country-specific>; 12 = <country-specific>
   # ??? Year of Birth: YYYY;  9999 = Not specified
   # ??? Gender: 1 = Female;  2 = Male; 3 = Non-binary/diverse;  9 = Refused'
-  df_ib_file[9 + nrow(df_a_filtered)+1,] = c("","","","","","",'<list_end>')
+  # df_ib_file[9 + nrow(df_a_filtered)+1,] = c("","","","","","",'<list_end>')
   # +2 the additional information
   # df_ib_file[8 + nrow(df_i2_filtered)+2,] = c(text_end_i02,"","","","","","")
 }else if(doc_values[3] == 0 & doc_values[2] == 1){
   # ISCED 2
   df_a = x
-  isb_header = as.data.frame(matrix(rep("",63), nrow = 9, ncol = 7))
+  i_a_header = as.data.frame(matrix(rep("",90), nrow = 10, ncol = 9))
   text_title_ib  = 'TALIS 2024 MS - [ISCED Level 1&2] Teacher Listing Form'
-  isb_header[1,1] =  text_title_ib
-  isb_header[3:6,1] = c("TALIS Country/Region",'School Name','School ID','School Coordinator')
-  isb_header[3:6,3] = y[1:4,]
-  isb_header[9,] = c('Teacher Name',
+  i_a_header[1,1] =  text_title_ib
+  i_a_header[3:6,1] = c("TALIS Country/Region",'School Name','School ID','School Coordinator')
+  i_a_header[3:6,3] = y[1:4,]
+  i_a_header[9,] = c('Teacher Name',
                     'Sequence Number',
                     'Sequence Number',
                     'Exemption',
                     'Year of Birth',
                     'Gender',
-                    'Main Subject Domain at [ISCED Level 1]')
-  df_a$Exemption = x[,9]
+                    'Main Subject Domain at [ISCED Level 1]',
+                    'Generic Text',
+                    'Generic Number')
+  df_a$Exemption = ifelse(x[,9] == 0,'',x[,9])
   df_a_filtered = df_a[,c(1,2,3,13,4,5,11)]
-  names(df_a_filtered) = names(isb_header)
-  df_ib_file = rbind(isb_header,df_a_filtered)
-  df_ib_file[9 + nrow(df_a_filtered)+1,] = c("","","","","","",'<list_end>')
+  df_a_filtered$gtext = ""
+  df_a_filtered$gnum = "" 
+  names(df_a_filtered) = names(i_a_header)
+  df_ib_file = rbind(i_a_header,df_a_filtered)
+  # df_ib_file[9 + nrow(df_a_filtered)+1,] = c("","","","","","",'<list_end>')
 }else{
-  df_ib_file = as.data.frame(matrix(rep("",63), nrow = 9, ncol = 7))
+  df_ib_file = as.data.frame(matrix(rep("",90), nrow = 10, ncol = 9))
 }
 
 ################################################################################
